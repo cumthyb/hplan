@@ -12,12 +12,15 @@
                  :data='advantageList' />
       <Comments/>
       <ButtonGroup vertical
-                   class="tel">
-        <Button icon="logo-facebook"></Button>
-        <Button icon="logo-twitter"></Button>
-        <Button icon="logo-googleplus"></Button>
-        <Button icon="ios-phone-portrait"></Button>
+                   class="fixed">
+        <Button icon="ios-phone-portrait">咨询</Button>
+        <Button icon="ios-cart-outline">购买</Button>
       </ButtonGroup>
+      <div class="content-members">
+        <Table border
+               :columns="columns1"
+               :data="data1"></Table>
+      </div>
     </div>
     <div class="footer"></div>
   </div>
@@ -38,6 +41,48 @@ export default {
   },
   data() {
     return {
+      columns1: [
+        {
+          title: '会员类型',
+          key: 'memberTypeName',
+          align: 'center'
+        },
+        {
+          title: '服务',
+          key: 'serviceTypeName',
+          align: 'center'
+        },
+        {
+          title: '期限',
+          key: 'servicePeroid',
+          align: 'center'
+        },
+        {
+          title: '价格',
+          key: 'price',
+          align: 'center'
+        }
+      ],
+      data1: [
+        {
+          memberTypeName: '普通会员',
+          serviceTypeName: '试学',
+          servicePeroid: '无限期',
+          price: '0'
+        },
+        {
+          memberTypeName: '课程会员',
+          serviceTypeName: '听课',
+          servicePeroid: '课程期限',
+          price: '课程价格'
+        },
+        {
+          memberTypeName: '练习会员',
+          serviceTypeName: '练习',
+          servicePeroid: '课程期限',
+          price: '课程价格'
+        }
+      ],
       advantageList: [
         {
           value: 'AD_1',
@@ -73,13 +118,18 @@ export default {
       margin-top: 25px;
       margin-bottom: 25px;
     }
-    .tel {
+    .fixed {
       position: fixed;
       bottom: 200px;
       right: 20px;
       text-align: center;
       padding: 10px;
       margin: 10px;
+      z-index: 99;
+    }
+    .content-members {
+      margin: 20px 0;
+      text-align: center;
     }
   }
 }
