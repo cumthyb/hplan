@@ -32,7 +32,7 @@ axios.interceptors.request.use(config => {
     } else {
         config.baseURL = '/';
     }
-
+    config.baseURL = 'http://127.0.0.1:3011'
     return config
 }, error => {
     return Promise.reject(error)

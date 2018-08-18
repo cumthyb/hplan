@@ -1,6 +1,6 @@
 <template>
   <div id="h-paln-container">
-
+    
     <HeaderSearch class="header"></HeaderSearch>
 
     <div class="content">
@@ -121,7 +121,7 @@ export default {
     .fixed {
       position: fixed;
       bottom: 200px;
-      right: 20px;
+      right: 256px;
       text-align: center;
       padding: 10px;
       margin: 10px;
