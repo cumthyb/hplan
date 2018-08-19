@@ -13,7 +13,7 @@ var db;
 const connectdb = () => {
 
     if (!db) {
-        var db = mongoose.createConnection('mongodb://127.0.0.1:27017/blog', options);
+        var db = mongoose.createConnection('mongodb://127.0.0.1:27017/hplan', options);
 
         db.then(
             () => {

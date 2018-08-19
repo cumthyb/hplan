@@ -125,7 +125,6 @@ export default {
                         success && success(response);
                         resolve(response);
                     } else {
-                        debugger
                         if (failure) {
                             failure && failure(response);
                         } else {
@@ -134,7 +133,6 @@ export default {
                     }
                 })
                 .catch(function(error) {
-                    debugger
                     if (error && error.response && error.response.data) {
                         error = error.response.data;
                         failure && failure(error);

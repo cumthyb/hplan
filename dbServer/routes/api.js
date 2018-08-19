@@ -9,27 +9,29 @@ export default function(Router) {
     })
 
     //注册用户
-    router.post('/signup',
+    router.post('/member/register',
         async(ctx, next) => {
-            const { username, password, isAdmin } = ctx.request.body;
+            const { username, password, isAdmin, email, tel } = ctx.request.body;
             const user = {
                 username,
                 isAdmin,
-                password
+                password,
+                email,
+                tel
             }
             await UserModel(user).save()
                 .then(product => {
                     console.log(product);
                     ctx.body = {
                         code: 1,
-                        msg: '注册成功'
+                        message: '注册成功'
                     }
                 })
                 .catch(error => {
                     console.log(error);
                     ctx.body = {
                         code: -1,
-                        msg: '注册失败'
+                        message: '注册失败'
                     }
                 })
         }
@@ -45,13 +47,13 @@ export default function(Router) {
             if (!user) {
                 ctx.body = {
                     code: -1,
-                    msg: '用户不存在'
+                    message: '用户不存在'
                 }
             } else {
                 if (user.password !== password) {
                     ctx.body = {
                         code: -1,
-                        msg: '密码错误'
+                        message: '密码错误'
                     }
                 } else {
                     const token = jwt.sign({
@@ -63,7 +65,7 @@ export default function(Router) {
                     await user.save()
                     ctx.body = {
                         code: 1,
-                        msg: '登陆验证成功',
+                        message: '登陆验证成功',
                         token,
                         username
                     }
@@ -81,7 +83,7 @@ export default function(Router) {
                 if (decoded.exp <= Date.now() / 1000) {
                     ctx.body = {
                         code: 0,
-                        msg: '登录状态已过期，请重新登录'
+                        message: '登录状态已过期，请重新登录'
                     }
                     return;
                 }
@@ -89,7 +91,7 @@ export default function(Router) {
                     // token is ok
                     ctx.body = {
                         code: 1,
-                        msg: '登陆验证成功'
+                        message: '登陆验证成功'
                     };
                     return;
                 }
@@ -98,7 +100,7 @@ export default function(Router) {
                 if (error) {
                     ctx.body = {
                         code: -1,
-                        msg: error.message
+                        message: error.message
                     }
                 }
             }
@@ -122,7 +124,7 @@ export default function(Router) {
                         console.log(product);
                         ctx.body = {
                             code: 1,
-                            msg: '修改用户成功'
+                            message: '修改用户成功'
                         }
                     }
                 )
@@ -130,7 +132,7 @@ export default function(Router) {
                     console.log(error);
                     ctx.body = {
                         code: -1,
-                        msg: error.message
+                        message: error.message
                     }
                 })
         }
@@ -149,13 +151,13 @@ export default function(Router) {
                             console.log(product);
                             ctx.body = {
                                 code: 1,
-                                msg: product.username + '用户删除成功'
+                                message: product.username + '用户删除成功'
                             }
                         } else {
                             console.log(product);
                             ctx.body = {
                                 code: -1,
-                                msg: username + '用户不存在'
+                                message: username + '用户不存在'
                             }
                         }
                     }
@@ -164,7 +166,7 @@ export default function(Router) {
                     console.log(error);
                     ctx.body = {
                         code: -1,
-                        msg: error.message
+                        message: error.message
                     }
                 })
         }
@@ -189,7 +191,7 @@ export default function(Router) {
                     console.log(product);
                     ctx.body = {
                         code: 1,
-                        msg: '文章发布成功'
+                        message: '文章发布成功'
                     }
                 })
                 .catch(
@@ -197,7 +199,7 @@ export default function(Router) {
                         console.log(error);
                         ctx.body = {
                             code: -1,
-                            msg: error.message
+                            message: error.message
                         }
                     }
                 )
@@ -225,7 +227,7 @@ export default function(Router) {
                     console.log(product);
                     ctx.body = {
                         code: 1,
-                        msg: '文章修改成功'
+                        message: '文章修改成功'
                     }
                 })
                 .catch(
@@ -233,7 +235,7 @@ export default function(Router) {
                         console.log(error);
                         ctx.body = {
                             code: -1,
-                            msg: error.message
+                            message: error.message
                         }
                     }
                 )
@@ -253,13 +255,13 @@ export default function(Router) {
                             console.log(product);
                             ctx.body = {
                                 code: 1,
-                                msg: product.title + ' 删除成功!'
+                                message: product.title + ' 删除成功!'
                             }
                         } else {
                             console.log(product);
                             ctx.body = {
                                 code: -1,
-                                msg: '文章不存在'
+                                message: '文章不存在'
                             }
                         }
                     }
@@ -268,7 +270,7 @@ export default function(Router) {
                     console.log(error);
                     ctx.body = {
                         code: -1,
-                        msg: error.message
+                        message: error.message
                     }
                 })
         }
@@ -286,14 +288,14 @@ export default function(Router) {
                             console.log(product);
                             ctx.body = {
                                 code: 1,
-                                msg: ' 查询所有成功!',
+                                message: ' 查询所有成功!',
                                 result: product
                             }
                         } else {
                             console.log(product);
                             ctx.body = {
                                 code: -1,
-                                msg: '文章不存在'
+                                message: '文章不存在'
                             }
                         }
                     }
@@ -302,7 +304,7 @@ export default function(Router) {
                     console.log(error);
                     ctx.body = {
                         code: -1,
-                        msg: error.message
+                        message: error.message
                     }
                 })
         }
@@ -321,14 +323,14 @@ export default function(Router) {
                             console.log(product);
                             ctx.body = {
                                 code: 1,
-                                msg: ' 查询ID为***的文章成功!',
+                                message: ' 查询ID为***的文章成功!',
                                 result: product
                             }
                         } else {
                             console.log(product);
                             ctx.body = {
                                 code: -1,
-                                msg: '文章不存在'
+                                message: '文章不存在'
                             }
                         }
                     }
@@ -337,7 +339,7 @@ export default function(Router) {
                     console.log(error);
                     ctx.body = {
                         code: -1,
-                        msg: error.message
+                        message: error.message
                     }
                 })
         }

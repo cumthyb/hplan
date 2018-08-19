@@ -9,6 +9,8 @@ import db from '../dbconnection'
  * @param {String} password 密码
  * @param {String} token 认证
  * @param {String} createtime 创建日期
+ * @param {String} email 邮箱
+ * @param {String} tel 电话
  * */
 
 
@@ -22,7 +24,8 @@ const UserSchema = new mongoose.Schema({
     },
     isAdmin: {
         type: Boolean,
-        required: true
+        default: false,
+        required: false
     },
     password: {
         type: String,
@@ -36,7 +39,17 @@ const UserSchema = new mongoose.Schema({
     createtime: {
         type: Date,
         default: Date.now
-    }
+    },
+    tel: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    email: {
+        type: String,
+        required: true,
+        trim: true
+    },
 });
 
 

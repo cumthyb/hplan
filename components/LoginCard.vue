@@ -26,9 +26,9 @@
                    placeholder="Enter your username"></Input>
           </FormItem>
           <FormItem label="邮箱"
-                    prop="mail">
-            <Input v-model="formRegister.mail"
-                   placeholder="Enter your e-mail"></Input>
+                    prop="email">
+            <Input v-model="formRegister.email"
+                   placeholder="Enter your e-email"></Input>
           </FormItem>
           <FormItem label="手机"
                     prop="tel">
@@ -49,7 +49,7 @@
           </FormItem>
           <FormItem>
             <Button type="primary"
-                    @click="handleSubmit('formRegister')">注册</Button>
+                    @click="handleRegister('formRegister')">注册</Button>
             <Button @click="handleReset('formRegister')"
                     style="margin-left: 8px">取消</Button>
           </FormItem>
@@ -78,7 +78,7 @@
           </FormItem>
           <FormItem>
             <Button type="primary"
-                    @click="handleSubmit('formLogin')">登陆</Button>
+                    @click="handleLogin('formLogin')">登陆</Button>
             <Button @click="modalLogin=false"
                     style="margin-left: 8px">取消</Button>
           </FormItem>
@@ -96,10 +96,10 @@ export default {
       modalLogin: false,
       modalRegister: false,
       formRegister: {
-        username: '',
-        mail: '',
-        tel: '',
-        password: ''
+        username: '1',
+        email: 'email@server.com',
+        tel: '18513040628',
+        password: '2'
       },
       ruleRegister: {
         username: [
@@ -109,7 +109,7 @@ export default {
             trigger: 'blur'
           }
         ],
-        mail: [
+        email: [
           {
             required: true,
             message: 'Mailbox cannot be empty',
@@ -126,8 +126,8 @@ export default {
           },
           {
             type: 'string',
-            min: 20,
-            message: 'Introduce no less than 20 words',
+            max: 11,
+            message: 'Introduce no more than 11 words',
             trigger: 'blur'
           }
         ],
@@ -140,7 +140,7 @@ export default {
           {
             type: 'string',
             max: 20,
-            message: 'Introduce no less than 20 words',
+            message: 'Introduce no more than 20 words',
             trigger: 'blur'
           }
         ]
@@ -183,13 +183,35 @@ export default {
       this.modalRegister = true
     },
 
-    handleSubmit(username) {
+    handleLogin(username) {
       this.$refs[username].validate(valid => {
         if (valid) {
           this.$http
-            .post('member-login',this.formLogin)
+            .post('member-login', this.formLogin)
             .then(response => {
-              debugger
+              this.$Notice.info({
+                title: '登陆成功'
+              })
+            })
+            .catch(error => {
+              this.$Notice.error({
+                title: error.message
+              })
+            })
+        } else {
+          this.$Message.error('表单填写不完整')
+        }
+      })
+    },
+    handleRegister(username) {
+      this.$refs[username].validate(valid => {
+        if (valid) {
+          this.$http
+            .post('member-register', this.formRegister)
+            .then(response => {
+              this.$Notice.info({
+                title: '注册成功'
+              })
             })
             .catch(error => {
               this.$Notice.error({
