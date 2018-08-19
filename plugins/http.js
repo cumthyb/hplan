@@ -24,15 +24,15 @@ axios.interceptors.request.use(config => {
 
 
     }
-    if (config.url.indexOf('mockjs') !== -1) {
-        config.baseURL = 'http://rap.krspace.cn';
-    } else if (config.url.indexOf('/st/') !== -1) {
-        config.url = config.url.split('/st/')[1]
-        config.baseURL = 'http://st.krspace.cn';
-    } else {
-        config.baseURL = '/';
-    }
-    config.baseURL = 'http://127.0.0.1:3011'
+    // if (config.url.indexOf('mockjs') !== -1) {
+    //     config.baseURL = 'http://rap.krspace.cn';
+    // } else if (config.url.indexOf('/st/') !== -1) {
+    //     config.url = config.url.split('/st/')[1]
+    //     config.baseURL = 'http://st.krspace.cn';
+    // } else {
+    //     config.baseURL = '/';
+    // }
+    config.baseURL = 'http://127.0.0.1:4000' //后端接口访问4000端口 由nginx配置代理
     return config
 }, error => {
     return Promise.reject(error)
@@ -117,7 +117,6 @@ export default {
             if (!APIS[url].url) {
                 return;
             }
-
             axios
                 .post(APIS[url].url, params)
                 .then(check401)
@@ -126,6 +125,7 @@ export default {
                         success && success(response);
                         resolve(response);
                     } else {
+                        debugger
                         if (failure) {
                             failure && failure(response);
                         } else {
@@ -134,6 +134,7 @@ export default {
                     }
                 })
                 .catch(function(error) {
+                    debugger
                     if (error && error.response && error.response.data) {
                         error = error.response.data;
                         failure && failure(error);

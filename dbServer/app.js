@@ -16,9 +16,9 @@ const cors_options = {
     //     return '*';
     // },
 
-    origin: function(ctx) {
-        return 'http://127.0.0.1:3000'
-    },
+    // origin: function(ctx) {
+    //     return 'http://127.0.0.1:3000'
+    // },
 
     // credentials: true,
     exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
@@ -41,5 +41,8 @@ app.use(cors(cors_options))
             return;
         }
         app.listen(3011)
+        console.log('====================================');
+        console.log('dbServer start service at 127.0.0.1:3011');
+        console.log('====================================');
     }
 )();

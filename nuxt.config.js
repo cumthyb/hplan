@@ -44,11 +44,11 @@ module.exports = {
         //         })
         //     }
         // },
-
+        // vendor: ['axios'],
         plugins: [
             new ExtractTextPlugin({
                 filename: 'styles.css'
             })
         ]
-    }
+    },
 }
