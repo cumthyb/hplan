@@ -19,6 +19,7 @@
         "koa": "^2.4.1",
         "less": "^3.8.1",
         "less-loader": "^4.1.0",
+        "mockjs": "^1.0.1-beta3",
         "nuxt": "latest",
         "regenerator-runtime": "^0.12.1",
         "source-map-support": "^0.4.15"

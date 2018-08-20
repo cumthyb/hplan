@@ -1,20 +1,31 @@
 <template>
-  <div>
+  <div style='height:100%'>
     <Card class="com-login-card">
       <Avatar icon="ios-person"
               size="large" />
-      <div class="btns">
+      <div class="btns"
+           v-if='!loginState'>
         <Button type="primary"
                 class="btn"
                 @click="onLogin">登陆</Button>
         <Button class="btn"
                 @click="onRegister">注册</Button>
       </div>
+      <div v-else
+           style='tex'
+           class='info'>
+        <p>欢迎{{formLogin.alisename}}</p>
+        <p class='psn-center'>
+          <nuxt-link :to="{name:'personal-center-customer',params:{ 'username': formLogin.username }}">个人中心</nuxt-link>
+        </p>
+        <p class='logout'
+           @click="onLogout">退出</p>
+      </div>
     </Card>
     <Modal v-model="modalRegister"
+           width='350'
            title="会员注册">
       <div class='formRegister'>
-
         <Form ref="formRegister"
               v-if='modalRegister'
               :model="formRegister"
@@ -23,6 +34,11 @@
           <FormItem label="用户名"
                     prop="username">
             <Input v-model="formRegister.username"
+                   placeholder="Enter your username"></Input>
+          </FormItem>
+          <FormItem label="昵称"
+                    prop="aliasname">
+            <Input v-model="formRegister.aliasname"
                    placeholder="Enter your username"></Input>
           </FormItem>
           <FormItem label="邮箱"
@@ -58,7 +74,8 @@
       <div slot='footer'> </div>
     </Modal>
     <Modal v-model="modalLogin"
-           title="会员登陆">
+           title="会员登陆"
+           width='350'>
       <div class='formLogin'>
         <Form ref="formLogin"
               v-if='modalLogin'
@@ -89,14 +106,23 @@
   </div>
 
 </template>
+
 <script>
+import Mock from 'mockjs'
+
 export default {
+  props: {
+    showLogin: '',
+    showLogout: ''
+  },
   data() {
     return {
+      loginState: false,
       modalLogin: false,
       modalRegister: false,
       formRegister: {
         username: '1',
+        aliasname: '',
         email: 'email@server.com',
         tel: '18513040628',
         password: '2'
@@ -106,6 +132,13 @@ export default {
           {
             required: true,
             message: 'The username cannot be empty',
+            trigger: 'blur'
+          }
+        ],
+        aliasname: [
+          {
+            required: true,
+            message: 'The aliasname cannot be empty',
             trigger: 'blur'
           }
         ],
@@ -146,8 +179,8 @@ export default {
         ]
       },
       formLogin: {
-        username: 'admin',
-        password: 'admin'
+        username: 'Daniel',
+        password: '2'
       },
       ruleLogin: {
         username: [
@@ -175,23 +208,44 @@ export default {
     }
   },
 
+  watch: {
+    showLogin(val) {
+      this.modalLogin = true
+    },
+    showLogout() {
+      this.onLogout()
+    }
+  },
   methods: {
     onLogin() {
       this.modalLogin = true
     },
+    onLogout() {
+      this.loginState = false
+      this.$emit('logout', this.formLogin.aliasname)
+    },
     onRegister() {
       this.modalRegister = true
+      this.formRegister.username = Mock.Random.first()
+      this.formRegister.aliasname = Mock.Random.cname()
     },
 
     handleLogin(username) {
       this.$refs[username].validate(valid => {
         if (valid) {
+          let _this=this;
           this.$http
             .post('member-login', this.formLogin)
             .then(response => {
-              this.$Notice.info({
+              _this.$Notice.info({
                 title: '登陆成功'
               })
+              _this.loginState = true
+              setTimeout(() => {
+                _this.modalLogin = false
+                _this.formLogin.alisename=response.data.alisename
+                _this.$emit('login', response.data.alisename)
+              }, 1000)
             })
             .catch(error => {
               this.$Notice.error({
@@ -212,6 +266,9 @@ export default {
               this.$Notice.info({
                 title: '注册成功'
               })
+              setTimeout(() => {
+                this.modalRegister = false
+              }, 1000)
             })
             .catch(error => {
               this.$Notice.error({
@@ -250,5 +307,19 @@ export default {
       margin: 0 15px;
     }
   }
+  .info {
+    p {
+      margin-bottom: 10px;
+    }
+    .psn-center,
+    .logout {
+      color: coral;
+      cursor: pointer;
+    }
+  }
+}
+.formRegister,
+.formLogin {
+  width: 300px;
 }
 </style>

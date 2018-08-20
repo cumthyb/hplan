@@ -22,6 +22,11 @@ const UserSchema = new mongoose.Schema({
         unique: true,
         trim: true
     },
+    aliasname: {
+        type: String,
+        required: true,
+        trim: true
+    },
     isAdmin: {
         type: Boolean,
         default: false,

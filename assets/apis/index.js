@@ -9,4 +9,10 @@ export default {
         url: "/api/member/login",
         method: "post"
     },
+
+    //会员信息
+    'member-info': {
+        url: "/api/member/info",
+        method: "post"
+    },
 }

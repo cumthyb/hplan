@@ -1,11 +1,19 @@
 <template>
   <div id="h-paln-container">
-    
+    <div class='user-info'>
+      <span v-if="loginState=='退出'" class='name'>欢迎{{userAliasName}}</span>
+      <span v-if="loginState=='退出'" class='psn-center'>个人中心</span>
+      <span class='login' @click="onLoginClick">{{loginState}}</span>
+    </div>
     <HeaderSearch class="header"></HeaderSearch>
 
     <div class="content">
       <CourseCarousel class="content-course-carousel">
-        <LoginCard slot="card" />
+        <LoginCard slot="card"
+                   @login='onLogin'
+                   @logout='onLogout' 
+                   :showLogin='showLogin'
+                   :showLogout='showLogout'/>
       </CourseCarousel>
 
       <Advantage class="content-advantage-panel"
@@ -41,6 +49,10 @@ export default {
   },
   data() {
     return {
+      showLogout:'',
+      showLogin:'',
+      userAliasName:'',
+      loginState: '登陆',
       columns1: [
         {
           title: '会员类型',
@@ -106,6 +118,23 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    onLogin(name) {
+      this.loginState = '退出'
+      this.userAliasName=name
+    },
+    onLogout() {
+      this.loginState = '登陆'
+    },
+    onLoginClick(){
+      if (this.loginState=='登陆') {
+        this.showLogin=(new Date()).getTime();
+      } else {
+        this.showLogout=(new Date()).getTime();
+      }
+    }
+
   }
 }
 </script>
@@ -113,6 +142,16 @@ export default {
 #h-paln-container {
   width: 1200px;
   margin: 0 auto;
+  .user-info{
+    margin: 5px 0;
+    span{
+      margin: 0 10px;
+    }
+    .psn-center,.login{
+      color:coral;
+      cursor: pointer;
+    }
+  }
   .content {
     .content-advantage-panel {
       margin-top: 25px;

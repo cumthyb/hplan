@@ -11,13 +11,14 @@ export default function(Router) {
     //注册用户
     router.post('/member/register',
         async(ctx, next) => {
-            const { username, password, isAdmin, email, tel } = ctx.request.body;
+            const { username, password, isAdmin, email, tel, aliasname } = ctx.request.body;
             const user = {
                 username,
+                aliasname,
                 isAdmin,
                 password,
                 email,
-                tel
+                tel,
             }
             await UserModel(user).save()
                 .then(product => {
@@ -66,8 +67,8 @@ export default function(Router) {
                     ctx.body = {
                         code: 1,
                         message: '登陆验证成功',
-                        token,
-                        username
+                        data: { username, alisename: user.aliasname, token },
+
                     }
                 }
             }
@@ -106,9 +107,30 @@ export default function(Router) {
             }
         }
     );
-
+    //用户信息
+    router.post('/member/info',
+        async(ctx, next) => {
+            const { username } = ctx.request.body;
+            const user = await UserModel.findOne({
+                username
+            });
+            if (!user) {
+                ctx.body = {
+                    code: -1,
+                    message: '用户不存在'
+                }
+            } else {
+                let { username, alisename, password, email, tel } = user
+                ctx.body = {
+                    code: 1,
+                    message: '登陆验证成功',
+                    data: { username, alisename, password, email, tel },
+                }
+            }
+        }
+    );
     //用户修改
-    router.post('/userupdate',
+    router.post('/member/update',
         async(ctx, next) => {
             const { username, password, isAdmin } = ctx.request.body;
             const user = {
