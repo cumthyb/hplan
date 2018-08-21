@@ -1,21 +1,6 @@
 <template>
   <div id="h-paln-container">
-    <div class='user-info'>
-      <span v-if="loginState=='退出'" class='name'>欢迎{{userAliasName}}</span>
-      <span v-if="loginState=='退出'" class='psn-center'>个人中心</span>
-      <span class='login' @click="onLoginClick">{{loginState}}</span>
-    </div>
-    <HeaderSearch class="header"></HeaderSearch>
-
     <div class="content">
-      <CourseCarousel class="content-course-carousel">
-        <LoginCard slot="card"
-                   @login='onLogin'
-                   @logout='onLogout' 
-                   :showLogin='showLogin'
-                   :showLogout='showLogout'/>
-      </CourseCarousel>
-
       <Advantage class="content-advantage-panel"
                  :data='advantageList' />
       <Comments/>
@@ -156,10 +141,11 @@ export default {
     .content-advantage-panel {
       margin-top: 25px;
       margin-bottom: 25px;
+      background-color: #F5F4F3
     }
     .fixed {
       position: fixed;
-      bottom: 200px;
+      bottom: 400px;
       right: 256px;
       text-align: center;
       padding: 10px;

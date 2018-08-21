@@ -1,29 +1,17 @@
 <template>
-    <div class="advantage-panel">
-        <Row v-for='(item,index) in data'
-             :key='item.value'
-             v-if='data[index*2]'
-             class="advantage-row">
-            <Col class="advantage-col"
-                 span="11">
-            <Card class="advantage-cad">
-                <p slot="title">{{data[index*2].label}}</p>
-                <p>{{data[index*2].desc}}</p>
-                <p>{{data[index*2].desc}}</p>
-                <p>{{data[index*2].desc}}</p>
-            </Card>
-            </Col>
-            <Col class="advantage-col"
-                 span="11"
-                 offset="2">
-            <Card class="advantage-cad">
-                <p slot="title">{{data[index*2+1].label}}</p>
-                <p>{{data[index*2+1].desc}}</p>
-                <p>{{data[index*2+1].desc}}</p>
-                <p>{{data[index*2+1].desc}}</p>
-            </Card>
-            </Col>
-        </Row>
+  <div class="advantage-panel">
+    <div class="advantage-row">
+      <div v-for='(item,index) in data'
+           :key='index'
+           class="advantage-col">
+        <Card class="advantage-cad">
+          <p slot="title">{{item.label}}</p>
+          <p>{{item.desc}}</p>
+          <p>{{item.desc}}</p>
+          <p>{{item.desc}}</p>
+        </Card>
+        </div>
+      </div>
 
     </div>
 </template>
@@ -39,12 +27,20 @@ export default {
 </script>
 <style lang="less">
 .advantage-panel {
+  padding: 20px;
   .advantage-row {
-    margin: 10px;
+    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
     .advantage-col {
+
+      width: 280px;
       .advantage-cad {
-        width: 350px;
-        margin: 0 auto ;
+        width: 250px;
+        height: 300px;
+        margin: 0 auto;
         text-align: center;
       }
     }
