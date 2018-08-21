@@ -48,7 +48,7 @@ export default {
   },
   mounted() {
     this.username = this.$route.params.username
-    debugger
+    
     this.viewPersonalInfo( this.username)
   },
   methods: {

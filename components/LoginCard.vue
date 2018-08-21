@@ -41,6 +41,18 @@
             <Input v-model="formRegister.aliasname"
                    placeholder="Enter your username"></Input>
           </FormItem>
+          <FormItem label="性别"
+                    prop="sex">
+            <RadioGroup v-model="formRegister.sex">
+              <Radio label="男"></Radio>
+              <Radio label="女"></Radio>
+            </RadioGroup>
+          </FormItem>
+          <FormItem label="QQ"
+                    prop="qq">
+            <Input v-model="formRegister.qq"
+                   placeholder="Enter your qq"></Input>
+          </FormItem>
           <FormItem label="邮箱"
                     prop="email">
             <Input v-model="formRegister.email"
@@ -142,6 +154,20 @@ export default {
             trigger: 'blur'
           }
         ],
+        qq: [
+          {
+            required: true,
+            message: 'The aliasname cannot be empty',
+            trigger: 'blur'
+          }
+        ],
+        sex: [
+          {
+            required: true,
+            message: 'The aliasname cannot be empty',
+            trigger: 'blur'
+          }
+        ],
         email: [
           {
             required: true,
@@ -233,7 +259,7 @@ export default {
     handleLogin(username) {
       this.$refs[username].validate(valid => {
         if (valid) {
-          let _this=this;
+          let _this = this
           this.$http
             .post('member-login', this.formLogin)
             .then(response => {
@@ -243,7 +269,7 @@ export default {
               _this.loginState = true
               setTimeout(() => {
                 _this.modalLogin = false
-                _this.formLogin.alisename=response.data.alisename
+                _this.formLogin.alisename = response.data.alisename
                 _this.$emit('login', response.data.alisename)
               }, 1000)
             })
