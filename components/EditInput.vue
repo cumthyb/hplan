@@ -2,10 +2,11 @@
 <template>
     <div class='edit'>
         <Input v-model="inputValue"
-        ref='input'
+               ref='input'
                placeholder="Enter something..."
                style="width: 300px"
-               @on-focus="onInputFocus" />
+               @on-focus="onInputFocus"
+               @on-blur='onInputBlur' />
         <button class="btn edit-btn"
                 v-if='viewModel'
                 @click='onModefy'>
@@ -45,7 +46,7 @@ export default {
   },
 
   mounted() {
-      this.inputValue = this.value
+    this.inputValue = this.value
   },
 
   methods: {
@@ -53,18 +54,20 @@ export default {
       this.viewModel = false
     },
     onInputBlur() {
-    //   this.viewModel = true
+      setTimeout(() => {
+        this.viewModel = true
+      }, 1000)
     },
     onSaveEdit() {
       this.$emit('input', this.inputValue)
       this.viewModel = true
     },
-    onCanelEdit(){
-        this.viewModel = true
+    onCanelEdit() {
+      this.viewModel = true
     },
-    onModefy(){
-        this.viewModel=false;
-        this.$refs['input'].focus()
+    onModefy() {
+      this.viewModel = false
+      this.$refs['input'].focus()
     }
   }
 }
