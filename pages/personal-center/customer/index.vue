@@ -1,25 +1,26 @@
 <!--  -->
 <template>
-  <div class='personal-info-center-panel'>
+  <div class='customer-info-center-panel'>
     <Menu mode="horizontal"
           :active-name="currentMenuItem"
-          class='menu'>
-      <MenuItem name="1">
+          class='menu'
+          @on-select='onMenuChange'>
+      <MenuItem name="course">
       <Icon type="ios-paper"></Icon>
       我的课程
       </MenuItem>
-      <MenuItem name="2">
+      <MenuItem name="task">
       <Icon type="ios-list"></Icon>
       我的作业
       </MenuItem>
-      <MenuItem name="3">
+      <MenuItem name="psninfo">
       <Icon type="ios-person"></Icon>
       个人信息
       </MenuItem>
     </Menu>
     <div class='content'>
       <transition>
-        <keep-alive>
+        <keep-alive include="psninfo,task,course">
           <component :is="view"></component>
         </keep-alive>
       </transition>
@@ -27,13 +28,21 @@
   </div>
 </template>
 <script>
+import psninfo from './psninfo.vue'
+import course from './course.vue'
+import task from './task.vue'
 export default {
   name: 'personalcenter-customer',
-
+  components: {
+    psninfo,
+    course,
+    task
+  },
   data() {
     return {
-      currentMenuItem:'1',
+      currentMenuItem: 'psninfo',
       username: '',
+      view: 'psninfo',
       formItem: {
         username: '',
         aliasname: '',
@@ -60,12 +69,15 @@ export default {
             title: error.message
           })
         })
+    },
+    onMenuChange(name) {
+      this.view = name
     }
   }
 }
 </script>
 <style lang='less'>
-.personal-info-center-panel {
+.customer-info-center-panel {
   width: 1200px;
   height: 100%;
   margin: 20px auto;
