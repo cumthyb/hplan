@@ -30,6 +30,27 @@
       <span v-if='loginState'
             class='user canclick'
             @click="onLogout">退出</span>
+
+      <Menu mode="horizontal"
+            active-name="3"
+            class='user user-menu'
+            v-if='loginState'>
+
+        <Submenu name="3">
+          <template slot="title">
+            <Avatar src="https://i.loli.net/2017/08/21/599a521472424.jpg" />
+          </template>
+
+          <MenuItem name="3-1">
+          <nuxt-link :to="{name:'personal-center-customer',params:{ 'username': formLogin.username }}">个人中心</nuxt-link>
+          </MenuItem>
+          <MenuItem name="3-2">
+          <span @click="onLogout">退出</span>
+          </MenuItem>
+
+        </Submenu>
+
+      </Menu>
     </div>
     <Modal v-model="modalRegister"
            width='350'
@@ -261,10 +282,10 @@ export default {
               _this.$Notice.info({
                 title: '登陆成功'
               })
-               _this.formLogin.alisename = response.data.alisename
+              _this.formLogin.alisename = response.data.alisename
               _this.loginState = true
               setTimeout(() => {
-                _this.modalLogin = false               
+                _this.modalLogin = false
                 _this.$emit('login', response.data.alisename)
               }, 200)
             })
@@ -347,6 +368,12 @@ export default {
       background: #fff;
       color: #00baf2;
       cursor: pointer;
+    }
+    .user-menu {
+      float: right;
+      z-index: 901;
+      ul {
+      }
     }
   }
 }

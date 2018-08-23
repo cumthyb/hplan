@@ -4,16 +4,17 @@
     <Card>
       <p slot="title">个人资料</p>
       <div class='info-content'>
-        <Row class='row'>
-          <Col class='col clo1'
+        <Row class='row row-pic'>
+          <Col class='col col1'
                span="6">图像</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <img src="https://ss1.bdstatic.com/70cFuXSh_Q1YnxGkpoWK1HF6hhy/it/u=2102344391,1872452718&fm=200&gp=0.jpg"
                width="80"
                height="80"
                alt=""
-               srcset="">
+               srcset=""
+               class='pic'>
 
           <Upload ref="upload"
                   :show-upload-list="false"
@@ -22,72 +23,72 @@
                   :max-size="2048"
                   :on-format-error="handleFormatError"
                   :on-exceeded-size="handleMaxSize"
-                  :before-upload="handleBeforeUpload"
                   multiple
                   type="drag"
                   action="//jsonplaceholder.typicode.com/posts/"
-                  style="display: inline-block;width:58px;">
+                  style="display: inline-block;width:58px;"
+                  class='upload'>
             <div style="width: 58px;height:58px;line-height: 58px;">
               <Icon type="ios-camera"
-                    size="40"></Icon>
-
+                    size="40">
+              </Icon>
             </div>
           </Upload>
-          <span>点击重新上传</span>
+          <span class='desc'>点击重新上传</span>
           </Col>
         </Row>
         <Row class='row'>
-          <Col class='col clo1'
+          <Col class='col col1'
                span="6">用户名</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <EditInput v-model="formItem.userName"></EditInput>
           </Col>
         </Row>
         <Row class='row'>
-          <Col class='col clo1'
+          <Col class='col col1'
                span="6">昵称</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <EditInput v-model="formItem.aliasname"></EditInput>
           </Col>
         </Row>
         <Row class='row'>
-          <Col class='col clo1'
+          <Col class='col col1'
                span="6">邮箱</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <EditInput v-model="formItem.email"></EditInput>
           </Col>
         </Row>
         <Row class='row'>
-          <Col class='col clo1'
+          <Col class='col col1'
                span="6">手机</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <EditInput v-model="formItem.tel"></EditInput>
           </Col>
         </Row>
         <Row class='row'>
-          <Col class='col clo1'
+          <Col class='col col1'
                span="6">QQ</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <EditInput v-model="formItem.qq"></EditInput>
           </Col>
         </Row>
         <Row class='row'>
-          <Col class='col clo1'
+          <Col class='col col1'
                span="6">职业</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <EditInput v-model="formItem.job"></EditInput>
           </Col>
         </Row>
         <Row class='row'>
-          <Col class='col clo1'
+          <Col class='col col1'
                span="6">个人介绍</Col>
-          <Col class='col clo2'
+          <Col class='col col2'
                span="18">
           <EditInput v-model="formItem.desc"></EditInput>
           </Col>
@@ -135,15 +136,6 @@ export default {
         desc: 'File  ' + file.name + ' is too large, no more than 2M.'
       })
     },
-    handleBeforeUpload() {
-      const check = this.uploadList.length < 5
-      if (!check) {
-        this.$Notice.warning({
-          title: 'Up to five pictures can be uploaded.'
-        })
-      }
-      return check
-    }
   }
 }
 </script>
@@ -155,12 +147,29 @@ export default {
     .col {
       padding: 1rem 0;
       border-top: 1px solid #f1f1f1;
-      vertical-align: middle;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-content: center;
-      flex-direction: row;
+      height: 65px;
+      line-height: 32px;
+    }
+    .col1 {
+      text-align: center;
+    }
+  }
+  .row-pic {
+    .col {
+      height: 100px;
+      line-height: 67px;
+      .pic {
+        margin-right: 20px;
+      }
+      .upload {
+        position: relative;
+        top: -14px;
+      }
+      .desc {
+        position: relative;
+        top: -36px;
+        padding: 20px;
+      }
     }
   }
 }
