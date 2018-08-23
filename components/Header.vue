@@ -3,38 +3,23 @@
 
     <div class="left">
       <div class="h-logo">
-        <img src="https://static1.51cto.com/edu/center/images/home/logo.png"
-             width="157"
-             height="34">
+        <img src="https://static1.51cto.com/edu/center/images/home/logo.png" width="157" height="34">
       </div>
       <div class="h-slogan">
-        <img src="https://static1.51cto.com/edu/center/images/home/logo2.png"
-             width="157"
-             height="34">
+        <img src="https://static1.51cto.com/edu/center/images/home/logo2.png" width="157" height="34">
       </div>
     </div>
     <div class='right'>
-      <span v-if='loginState'
-            class='user'>欢迎用户{{formLogin.alisename}}</span>
-      <span v-if='loginState'
-            class='user canclick'>
+      <span v-if='loginState' class='user'>欢迎用户{{formLogin.alisename}}</span>
+      <span v-if='loginState' class='user canclick'>
         <nuxt-link :to="{name:'personal-center-customer',params:{ 'username': formLogin.username }}">个人中心</nuxt-link>
       </span>
 
-      <span v-if='!loginState'
-            class='user canclick'
-            @click="onLogin">登陆</span>
-      <span v-if='!loginState'
-            class='user canclick'
-            @click="onRegister">注册</span>
-      <span v-if='loginState'
-            class='user canclick'
-            @click="onLogout">退出</span>
+      <span v-if='!loginState' class='user canclick' @click="onLogin">登陆</span>
+      <span v-if='!loginState' class='user canclick' @click="onRegister">注册</span>
+      <span v-if='loginState' class='user canclick' @click="onLogout">退出</span>
 
-      <Menu mode="horizontal"
-            active-name="3"
-            class='user user-menu'
-            v-if='loginState'>
+      <Menu mode="horizontal" active-name="3" class='user user-menu' v-if='loginState'>
 
         <Submenu name="3">
           <template slot="title">
@@ -52,94 +37,56 @@
 
       </Menu>
     </div>
-    <Modal v-model="modalRegister"
-           width='350'
-           title="会员注册">
+    <Modal v-model="modalRegister" width='350' title="会员注册">
       <div class='formRegister'>
-        <Form ref="formRegister"
-              v-if='modalRegister'
-              :model="formRegister"
-              :rules="ruleRegister"
-              :label-width="80">
-          <FormItem label="用户名"
-                    prop="username">
-            <Input v-model="formRegister.username"
-                   placeholder="Enter your username"></Input>
+        <Form ref="formRegister" v-if='modalRegister' :model="formRegister" :rules="ruleRegister" :label-width="80">
+          <FormItem label="用户名" prop="username">
+            <Input v-model="formRegister.username" placeholder="Enter your username"></Input>
           </FormItem>
-          <FormItem label="昵称"
-                    prop="alisename">
-            <Input v-model="formRegister.alisename"
-                   placeholder="Enter your username"></Input>
+          <FormItem label="昵称" prop="alisename">
+            <Input v-model="formRegister.alisename" placeholder="Enter your username"></Input>
           </FormItem>
-          <FormItem label="性别"
-                    prop="sex">
+          <FormItem label="性别" prop="sex">
             <RadioGroup v-model="formRegister.sex">
               <Radio label="男"></Radio>
               <Radio label="女"></Radio>
             </RadioGroup>
           </FormItem>
-          <FormItem label="QQ"
-                    prop="qq">
-            <Input v-model="formRegister.qq"
-                   placeholder="Enter your qq"></Input>
+          <FormItem label="QQ" prop="qq">
+            <Input v-model="formRegister.qq" placeholder="Enter your qq"></Input>
           </FormItem>
-          <FormItem label="邮箱"
-                    prop="email">
-            <Input v-model="formRegister.email"
-                   placeholder="Enter your e-email"></Input>
+          <FormItem label="邮箱" prop="email">
+            <Input v-model="formRegister.email" placeholder="Enter your e-email"></Input>
           </FormItem>
-          <FormItem label="手机"
-                    prop="tel">
-            <Input v-model="formRegister.tel"
-                   placeholder="Enter your tel"></Input>
+          <FormItem label="手机" prop="tel">
+            <Input v-model="formRegister.tel" placeholder="Enter your tel"></Input>
           </FormItem>
-          <FormItem label="密码"
-                    prop="password">
-            <Input v-model="formRegister.password"
-                   type='password'
-                   placeholder="Enter your password"></Input>
+          <FormItem label="密码" prop="password">
+            <Input v-model="formRegister.password" type='password' placeholder="Enter your password"></Input>
           </FormItem>
-          <FormItem label="确认密码"
-                    prop="password">
-            <Input v-model="formRegister.password"
-                   type='password'
-                   placeholder="Enter your password"></Input>
+          <FormItem label="确认密码" prop="password">
+            <Input v-model="formRegister.password" type='password' placeholder="Enter your password"></Input>
           </FormItem>
           <FormItem>
-            <Button type="primary"
-                    @click="handleRegister('formRegister')">注册</Button>
-            <Button @click="handleReset('formRegister')"
-                    style="margin-left: 8px">取消</Button>
+            <Button type="primary" @click="handleRegister('formRegister')">注册</Button>
+            <Button @click="handleReset('formRegister')" style="margin-left: 8px">取消</Button>
           </FormItem>
         </Form>
       </div>
       <div slot='footer'> </div>
     </Modal>
-    <Modal v-model="modalLogin"
-           title="会员登陆"
-           width='350'>
+    <Modal v-model="modalLogin" title="会员登陆" width='350'>
       <div class='formLogin'>
-        <Form ref="formLogin"
-              v-if='modalLogin'
-              :model="formLogin"
-              :rules="ruleLogin"
-              :label-width="80">
-          <FormItem label="用户名"
-                    prop="username">
-            <Input v-model="formLogin.username"
-                   placeholder="Enter your username"></Input>
+        <Form ref="formLogin" v-if='modalLogin' :model="formLogin" :rules="ruleLogin" :label-width="80">
+          <FormItem label="用户名" prop="username">
+            <Input v-model="formLogin.username" placeholder="Enter your username"></Input>
           </FormItem>
-          <FormItem label="密码"
-                    prop="password">
-            <Input v-model="formLogin.password"
-                   type='password'
-                   placeholder="Enter your password"></Input>
+          <FormItem label="密码" prop="password">
+            <Input v-model="formLogin.password" type='password' placeholder="Enter your password"></Input>
           </FormItem>
           <FormItem>
-            <Button type="primary"
-                    @click="handleLogin('formLogin')">登陆</Button>
-            <Button @click="modalLogin=false"
-                    style="margin-left: 8px">取消</Button>
+            <Button type="primary" @click="handleLogin('formLogin')">登陆</Button>
+            <Button @click="modalLogin=false" style="margin-left: 8px">取消</Button>
           </FormItem>
         </Form>
       </div>

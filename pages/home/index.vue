@@ -1,18 +1,14 @@
 <template>
   <div id="h-paln-container">
     <div class="content">
-      <Advantage class="content-advantage-panel"
-                 :data='advantageList' />
+      <Advantage class="content-advantage-panel" :data='advantageList' />
       <Comments/>
-      <ButtonGroup vertical
-                   class="fixed">
+      <ButtonGroup vertical class="fixed">
         <Button icon="ios-phone-portrait">咨询</Button>
         <Button icon="ios-cart-outline">购买</Button>
       </ButtonGroup>
       <div class="content-members">
-        <Table border
-               :columns="columns1"
-               :data="data1"></Table>
+        <Table border :columns="columns1" :data="data1"></Table>
       </div>
     </div>
     <div class="footer"></div>
@@ -34,9 +30,9 @@ export default {
   },
   data() {
     return {
-      showLogout:'',
-      showLogin:'',
-      userAliasName:'',
+      showLogout: '',
+      showLogin: '',
+      userAliasName: '',
       loginState: '登陆',
       columns1: [
         {
@@ -107,19 +103,18 @@ export default {
   methods: {
     onLogin(name) {
       this.loginState = '退出'
-      this.userAliasName=name
+      this.userAliasName = name
     },
     onLogout() {
       this.loginState = '登陆'
     },
-    onLoginClick(){
-      if (this.loginState=='登陆') {
-        this.showLogin=(new Date()).getTime();
+    onLoginClick() {
+      if (this.loginState == '登陆') {
+        this.showLogin = new Date().getTime()
       } else {
-        this.showLogout=(new Date()).getTime();
+        this.showLogout = new Date().getTime()
       }
     }
-
   }
 }
 </script>
@@ -127,13 +122,14 @@ export default {
 #h-paln-container {
   width: 1200px;
   margin: 0 auto;
-  .user-info{
+  .user-info {
     margin: 5px 0;
-    span{
+    span {
       margin: 0 10px;
     }
-    .psn-center,.login{
-      color:coral;
+    .psn-center,
+    .login {
+      color: coral;
       cursor: pointer;
     }
   }
@@ -141,7 +137,7 @@ export default {
     .content-advantage-panel {
       margin-top: 25px;
       margin-bottom: 25px;
-      background-color: #F5F4F3
+      background-color: #f5f4f3;
     }
     .fixed {
       position: fixed;
