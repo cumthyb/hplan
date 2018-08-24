@@ -86,7 +86,7 @@ module.exports = {
     /*
      ** Global CSS
      */
-    css: ['~assets/css/main.css', '~node_modules/iview/dist/styles/iview.css'],
+    css: ['~assets/css/main.css', '~node_modules/iview/dist/styles/iview.css', '~assets/css/quill.bubble.css', '~assets/css/quill.core.css', '~assets/css/quill.snow.css'],
     /*
      ** Customize the progress-bar color
      */
@@ -94,7 +94,7 @@ module.exports = {
     /*
      ** Build configuration
      */
-    plugins: [{ src: '~plugins/iview.js', ssr: true }],
+    plugins: [{ src: '~plugins/iview.js', ssr: true }, { src: '~plugins/nuxt-quill-plugin.js', ssr: false }],
     build: {
         /*
          ** Run ESLINT on save

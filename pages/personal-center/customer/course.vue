@@ -1,27 +1,28 @@
 <!--  -->
 <template>
   <div>
-    KECH
+    kkjkjkj
+    <QuillEditor></QuillEditor>
   </div>
 </template>
 
 <script>
+import QuillEditor from '../../../components/QuillEditor.vue'
 export default {
-  name:'course',
-  data () {
-    return {
-    };
+  components: {
+    QuillEditor
   },
 
-  components: {},
+  data() {
+    return {}
+  },
 
   computed: {},
 
-  mounted(){},
+  mounted() {},
 
   methods: {}
 }
-
 </script>
 <style lang='less'>
 </style>
