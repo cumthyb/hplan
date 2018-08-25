@@ -26,6 +26,7 @@
         "quill-image-resize-module": "^3.0.0",
         "regenerator-runtime": "^0.12.1",
         "source-map-support": "^0.4.15",
+        "vue-image-crop-upload": "^2.3.3",
         "vue-quill-editor": "^3.0.6"
     },
     "devDependencies": {

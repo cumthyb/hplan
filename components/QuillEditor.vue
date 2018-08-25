@@ -1,82 +1,89 @@
 <template>
-  <section class="container">
-    <div class="quill-editor" 
-         :content="content"
-         @change="onEditorChange($event)"
-         @blur="onEditorBlur($event)"
-         @focus="onEditorFocus($event)"
-         @ready="onEditorReady($event)"
-         v-quill:myQuillEditor="editorOption">
+  <section class="quill-editor-container">
+    <div class="quill-editor" :content="content" @change="onEditorChange($event)" @blur="onEditorBlur($event)" @focus="onEditorFocus($event)" @ready="onEditorReady($event)" v-quill:myQuillEditor="editorOption">
     </div>
   </section>
 </template>
 
 <script>
-  import hljs from 'highlight.js'
-  export default {
-    data () {
-      return {
-        content: '<p>I am Example</p>',
-        editorOption: {
-          // some quill options
-          modules: {
-            toolbar: [
+import hljs from 'highlight.js'
+
+export default {
+  data() {
+    return {
+      content: '<p>I am Example</p>',
+      editorOption: {
+        // some quill options
+        modules: {
+          toolbar: {
+            container: [
               ['bold', 'italic', 'underline', 'strike'],
               ['blockquote', 'code-block'],
-              [{ 'header': 1 }, { 'header': 2 }],
-              [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-              [{ 'script': 'sub' }, { 'script': 'super' }],
-              [{ 'indent': '-1' }, { 'indent': '+1' }],
-              [{ 'direction': 'rtl' }],
-              [{ 'size': ['small', false, 'large', 'huge'] }],
-              [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-              [{ 'font': [] }],
-              [{ 'color': [] }, { 'background': [] }],
-              [{ 'align': [] }],
-              ['clean'],
-              ['link', 'image', 'video']
+              [{ header: 1 }, { header: 2 }],
+              [{ list: 'ordered' }, { list: 'bullet' }],
+              [{ script: 'sub' }, { script: 'super' }],
+              [{ indent: '-1' }, { indent: '+1' }],
+              [{ direction: 'rtl' }],
+              [{ size: ['small', false, 'large', 'huge'] }],
+              [{ header: [1, 2, 3, 4, 5, 6, false] }],
+              [{ font: [] }],
+              [{ color: [] }, { background: [] }],
+              [{ align: [] }],
+              ['link', 'image', 'video'],
+              ['clean']
             ],
-            syntax: {
-              highlight: text => hljs.highlightAuto(text).value
+            handlers: {
+              // handlers object will be merged with default handlers object
+              link: function(value) {
+                if (value) {
+                  var href = prompt('Enter the URL')
+                  this.quill.format('link', href)
+                } else {
+                  this.quill.format('link', false)
+                }
+              }
             }
           }
         }
       }
+    }
+  },
+  mounted() {
+    console.log('app init, my quill insrance object is:', this.myQuillEditor)
+    setTimeout(() => {
+      this.content = 'i am changed'
+    }, 3000)
+  },
+  methods: {
+    onEditorBlur(editor) {
+      console.log('editor blur!', editor)
     },
-    mounted() {
-      console.log('app init, my quill insrance object is:', this.myQuillEditor)
-      setTimeout(() => {
-        this.content = 'i am changed'
-      }, 3000)
+    onEditorFocus(editor) {
+      console.log('editor focus!', editor)
     },
-    methods: {
-      onEditorBlur(editor) {
-        console.log('editor blur!', editor)
-      },
-      onEditorFocus(editor) {
-        console.log('editor focus!', editor)
-      },
-      onEditorReady(editor) {
-        console.log('editor ready!', editor)
-      },
-      onEditorChange({ editor, html, text }) {
-        console.log('editor change!', editor, html, text)
-        this.content = html
-      }
+    onEditorReady(editor) {
+      console.log('editor ready!', editor)
+    },
+    onEditorChange({ editor, html, text }) {
+      console.log('editor change!', editor, html, text)
+      this.content = html
     }
   }
+}
 </script>
 
 <style lang="less">
-  .container {
-    width: 80%;
-    margin: 0 auto;
-    padding: 50px 0;
-    text-align: left;
-    .quill-editor {
-      min-height: 200px;
-      max-height: 400px;
-      overflow-y: auto;
-    }
+.quill-editor-container {
+  width: 95%;
+  margin: 0 auto;
+  padding: 50px 0;
+  // text-align: left;
+  height: 100%;
+  .quill-editor {
+    height: 100%;
+    min-height: 500px;
+    max-height: 750px;
+    overflow-y: auto;
   }
+}
 </style>

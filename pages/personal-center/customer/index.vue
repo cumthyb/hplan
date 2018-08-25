@@ -40,9 +40,9 @@ export default {
   },
   data() {
     return {
-      currentMenuItem: 'psninfo',
+      currentMenuItem: 'course',
       username: '',
-      view: 'psninfo',
+      view: 'course',
       formItem: {
         username: '',
         aliasname: '',

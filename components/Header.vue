@@ -11,7 +11,10 @@
     </div>
     <div class='right'>
       <span v-if='loginState' class='user'>欢迎用户{{formLogin.alisename}}</span>
-      <span v-if='loginState' class='user canclick'>
+      <!-- <span v-if='loginState' class='user canclick'>
+        <nuxt-link :to="{name:'personal-center-customer',params:{ 'username': formLogin.username }}">个人中心</nuxt-link>
+      </span> -->
+        <span  class='user canclick'>
         <nuxt-link :to="{name:'personal-center-customer',params:{ 'username': formLogin.username }}">个人中心</nuxt-link>
       </span>
 
