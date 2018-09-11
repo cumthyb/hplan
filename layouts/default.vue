@@ -14,6 +14,20 @@ export default {
   components: {
     MyFooter,
     MyHeader
+  },
+  mounted() {
+    window.onhashchange = function(e) {
+      debugger
+      console.log('old URL:', e.oldURL)
+      console.log('new URL', e.newURL)
+    }
+    window.onreadystatechange = function(e) {
+      debugger
+      console.log('===========readystatechange=========================')
+      console.log(document.location)
+      console.log('====================================')
+    }
+    debugger
   }
 }
 </script>

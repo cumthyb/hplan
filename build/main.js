@@ -95,6 +95,9 @@ module.exports = {
      ** Build configuration
      */
     plugins: [{ src: '~plugins/iview.js', ssr: true }, { src: '~plugins/nuxt-quill-plugin.js', ssr: false }],
+    router: {
+        mode: 'hash'
+    },
     build: {
         /*
          ** Run ESLINT on save
