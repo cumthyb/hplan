@@ -101,7 +101,6 @@
 
 <script>
 import EditInput from '../../../components/EditInput.vue'
-const QiniuUPToken = require('qiniu-uptoken');
 export default {
   name: 'psninfo',
   components: {

@@ -2,114 +2,114 @@
   <div style='height:100%'>
     <Card class="com-login-card">
       <Avatar icon="ios-person"
-              size="large" />
+        size="large" />
       <div class="btns"
-           v-if='!loginState'>
+        v-if='!loginState'>
         <Button type="primary"
-                class="btn"
-                @click="onLogin">登陆</Button>
+          class="btn"
+          @click="onLogin">登陆</Button>
         <Button class="btn"
-                @click="onRegister">注册</Button>
+          @click="onRegister">注册</Button>
       </div>
       <div v-else
-           style='tex'
-           class='info'>
+        style='tex'
+        class='info'>
         <p>欢迎{{formLogin.alisename}}</p>
         <p class='psn-center'>
           <nuxt-link :to="{name:'personal-center-customer',params:{ 'username': formLogin.username }}">个人中心</nuxt-link>
         </p>
         <p class='logout'
-           @click="onLogout">退出</p>
+          @click="onLogout">退出</p>
       </div>
     </Card>
     <Modal v-model="modalRegister"
-           width='350'
-           title="会员注册">
+      width='350'
+      title="会员注册">
       <div class='formRegister'>
         <Form ref="formRegister"
-              v-if='modalRegister'
-              :model="formRegister"
-              :rules="ruleRegister"
-              :label-width="80">
+          v-if='modalRegister'
+          :model="formRegister"
+          :rules="ruleRegister"
+          :label-width="80">
           <FormItem label="用户名"
-                    prop="username">
+            prop="username">
             <Input v-model="formRegister.username"
-                   placeholder="Enter your username"></Input>
+              placeholder="Enter your username"></Input>
           </FormItem>
           <FormItem label="昵称"
-                    prop="aliasname">
+            prop="aliasname">
             <Input v-model="formRegister.aliasname"
-                   placeholder="Enter your username"></Input>
+              placeholder="Enter your username"></Input>
           </FormItem>
           <FormItem label="性别"
-                    prop="sex">
+            prop="sex">
             <RadioGroup v-model="formRegister.sex">
               <Radio label="男"></Radio>
               <Radio label="女"></Radio>
             </RadioGroup>
           </FormItem>
           <FormItem label="QQ"
-                    prop="qq">
+            prop="qq">
             <Input v-model="formRegister.qq"
-                   placeholder="Enter your qq"></Input>
+              placeholder="Enter your qq"></Input>
           </FormItem>
           <FormItem label="邮箱"
-                    prop="email">
+            prop="email">
             <Input v-model="formRegister.email"
-                   placeholder="Enter your e-email"></Input>
+              placeholder="Enter your e-email"></Input>
           </FormItem>
           <FormItem label="手机"
-                    prop="tel">
+            prop="tel">
             <Input v-model="formRegister.tel"
-                   placeholder="Enter your tel"></Input>
+              placeholder="Enter your tel"></Input>
           </FormItem>
           <FormItem label="密码"
-                    prop="password">
+            prop="password">
             <Input v-model="formRegister.password"
-                   type='password'
-                   placeholder="Enter your password"></Input>
+              type='password'
+              placeholder="Enter your password"></Input>
           </FormItem>
           <FormItem label="确认密码"
-                    prop="password">
+            prop="password">
             <Input v-model="formRegister.password"
-                   type='password'
-                   placeholder="Enter your password"></Input>
+              type='password'
+              placeholder="Enter your password"></Input>
           </FormItem>
           <FormItem>
             <Button type="primary"
-                    @click="handleRegister('formRegister')">注册</Button>
+              @click="handleRegister('formRegister')">注册</Button>
             <Button @click="handleReset('formRegister')"
-                    style="margin-left: 8px">取消</Button>
+              style="margin-left: 8px">取消</Button>
           </FormItem>
         </Form>
       </div>
       <div slot='footer'> </div>
     </Modal>
     <Modal v-model="modalLogin"
-           title="会员登陆"
-           width='350'>
+      title="会员登陆"
+      width='350'>
       <div class='formLogin'>
         <Form ref="formLogin"
-              v-if='modalLogin'
-              :model="formLogin"
-              :rules="ruleLogin"
-              :label-width="80">
+          v-if='modalLogin'
+          :model="formLogin"
+          :rules="ruleLogin"
+          :label-width="80">
           <FormItem label="用户名"
-                    prop="username">
+            prop="username">
             <Input v-model="formLogin.username"
-                   placeholder="Enter your username"></Input>
+              placeholder="Enter your username"></Input>
           </FormItem>
           <FormItem label="密码"
-                    prop="password">
+            prop="password">
             <Input v-model="formLogin.password"
-                   type='password'
-                   placeholder="Enter your password"></Input>
+              type='password'
+              placeholder="Enter your password"></Input>
           </FormItem>
           <FormItem>
             <Button type="primary"
-                    @click="handleLogin('formLogin')">登陆</Button>
+              @click="handleLogin('formLogin')">登陆</Button>
             <Button @click="modalLogin=false"
-                    style="margin-left: 8px">取消</Button>
+              style="margin-left: 8px">取消</Button>
           </FormItem>
         </Form>
       </div>
@@ -314,38 +314,38 @@ export default {
 </script>
 <style lang="less">
 .com-login-card {
-  text-align: center;
-  height: 100%;
-  .ivu-card-body {
+    text-align: center;
     height: 100%;
-    .ivu-avatar-large {
-      width: 120px;
-      height: 120px;
-      line-height: 120px;
-      border-radius: 60px;
-      font-size: 80px;
-      margin: 20px;
+    .ivu-card-body {
+        height: 100%;
+        .ivu-avatar-large {
+            width: 120px;
+            height: 120px;
+            line-height: 120px;
+            border-radius: 60px;
+            font-size: 80px;
+            margin: 20px;
+        }
     }
-  }
-  .btns {
-    padding-top: 20px;
-    .btn {
-      margin: 0 15px;
+    .btns {
+        padding-top: 20px;
+        .btn {
+            margin: 0 15px;
+        }
     }
-  }
-  .info {
-    p {
-      margin-bottom: 10px;
+    .info {
+        p {
+            margin-bottom: 10px;
+        }
+        .psn-center,
+        .logout {
+            color: coral;
+            cursor: pointer;
+        }
     }
-    .psn-center,
-    .logout {
-      color: coral;
-      cursor: pointer;
-    }
-  }
 }
 .formRegister,
 .formLogin {
-  width: 300px;
+    width: 300px;
 }
 </style>

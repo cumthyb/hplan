@@ -22,14 +22,14 @@ export default function(Router) {
     prefix: '/api'
   })
 
-  router.get('/uptoken', (ctx, next) => {
+  router.get('/uptoken', async (ctx, next) => {
     var token = putPolicy.uploadToken(mac)
     console.log(token)
 
     if (token) {
-      ctx.body = { uptoken: token, domain: config.Domain }
+      ctx.body = { uptoken: token, domain: config.Domain,code:1 }
     } else {
-      ctx.body = { uptoken: -1, domain: config.Domain }
+      ctx.body = { uptoken:'', domain: config.Domain,code:-1 }
     }
   })
 

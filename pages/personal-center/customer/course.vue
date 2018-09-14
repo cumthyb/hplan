@@ -8,7 +8,6 @@
 
 <script>
 import QuillEditor from '../../../components/QuillEditor.vue'
-// import QuillEditor from '../../../components/Editor.vue'
 export default {
   components: {
     QuillEditor
