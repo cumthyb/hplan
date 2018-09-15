@@ -1,25 +1,29 @@
 <template>
   <div id="h-paln-container">
     <div class="content">
-      <Advantage class="content-advantage-panel" :data='advantageList' />
+      <Advantage class="content-advantage-panel"
+        :data='advantageList' />
       <Comments/>
-      <ButtonGroup vertical class="fixed">
+      <ButtonGroup vertical
+        class="fixed">
         <Button icon="ios-phone-portrait">咨询</Button>
         <Button icon="ios-cart-outline">购买</Button>
       </ButtonGroup>
       <div class="content-members">
-        <Table border :columns="columns1" :data="data1"></Table>
+        <Table border
+          :columns="columns1"
+          :data="data1"></Table>
       </div>
     </div>
     <div class="footer"></div>
   </div>
 </template>
 <script>
-import HeaderSearch from '~/components/HeaderSearch'
-import CourseCarousel from '~/components/CourseCarousel'
-import Advantage from '~/components/Advantage'
-import Comments from '~/components/Comments'
-import LoginCard from '~/components/LoginCard'
+import HeaderSearch from '@components/HeaderSearch'
+import CourseCarousel from '@components/CourseCarousel'
+import Advantage from '@components/Advantage'
+import Comments from '@components/Comments'
+import LoginCard from '@components/LoginCard'
 export default {
   components: {
     HeaderSearch,
@@ -121,38 +125,38 @@ export default {
 </script>
 <style lang="less">
 #h-paln-container {
-  width: 1200px;
-  margin: 0 auto;
-  .user-info {
-    margin: 5px 0;
-    span {
-      margin: 0 10px;
+    width: 1200px;
+    margin: 0 auto;
+    .user-info {
+        margin: 5px 0;
+        span {
+            margin: 0 10px;
+        }
+        .psn-center,
+        .login {
+            color: coral;
+            cursor: pointer;
+        }
     }
-    .psn-center,
-    .login {
-      color: coral;
-      cursor: pointer;
+    .content {
+        .content-advantage-panel {
+            margin-top: 25px;
+            margin-bottom: 25px;
+            background-color: #f5f4f3;
+        }
+        .fixed {
+            position: fixed;
+            bottom: 400px;
+            right: 256px;
+            text-align: center;
+            padding: 10px;
+            margin: 10px;
+            z-index: 99;
+        }
+        .content-members {
+            margin: 20px 0;
+            text-align: center;
+        }
     }
-  }
-  .content {
-    .content-advantage-panel {
-      margin-top: 25px;
-      margin-bottom: 25px;
-      background-color: #f5f4f3;
-    }
-    .fixed {
-      position: fixed;
-      bottom: 400px;
-      right: 256px;
-      text-align: center;
-      padding: 10px;
-      margin: 10px;
-      z-index: 99;
-    }
-    .content-members {
-      margin: 20px 0;
-      text-align: center;
-    }
-  }
 }
 </style>

@@ -7,14 +7,14 @@
 export default {
   components: {},
 
-  data () {
+  data() {
     return {
     };
   },
 
   computed: {},
 
-  mounted(){},
+  mounted() { },
 
   methods: {}
 }

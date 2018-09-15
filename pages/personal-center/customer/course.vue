@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import QuillEditor from '../../../components/QuillEditor.vue'
+import QuillEditor from '@components/QuillEditor.vue'
 export default {
   components: {
     QuillEditor

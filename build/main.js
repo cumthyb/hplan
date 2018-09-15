@@ -73,50 +73,62 @@ module.exports =
 /***/ function(module, exports, __webpack_require__) {
 
 var ExtractTextPlugin = __webpack_require__(4);
+var path = __webpack_require__(7);
 
 module.exports = {
-    /*
+  /*
      ** Headers of the page
      */
-    head: {
-        title: 'H计划',
-        meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: 'Nuxt.js project' }],
-        link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
-    },
-    /*
+  head: {
+    title: 'H计划',
+    meta: [{ charset: 'utf-8' }, { name: 'viewport', content: 'width=device-width, initial-scale=1' }, { hid: 'description', name: 'description', content: 'Nuxt.js project' }],
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+  },
+  /*
      ** Global CSS
      */
-    css: ['~assets/css/main.css', '~node_modules/iview/dist/styles/iview.css', '~assets/css/quill.bubble.css', '~assets/css/quill.core.css', '~assets/css/quill.snow.css'],
-    /*
+  css: ['~assets/css/main.css', '~node_modules/iview/dist/styles/iview.css', '~assets/css/quill.bubble.css', '~assets/css/quill.core.css', '~assets/css/quill.snow.css'],
+  /*
      ** Customize the progress-bar color
      */
-    loading: { color: '#3B8070' },
-    /*
+  loading: { color: '#3B8070' },
+  /*
      ** Build configuration
      */
-    plugins: [{ src: '~plugins/iview.js', ssr: true }, { src: '~plugins/nuxt-quill-plugin.js', ssr: false }],
-    router: {
-        mode: 'hash'
-    },
-    build: {
-        /*
+  plugins: [{ src: '~plugins/iview.js', ssr: true }, { src: '~plugins/nuxt-quill-plugin.js', ssr: false }],
+  router: {
+    mode: 'hash'
+  },
+  build: {
+    /*
          ** Run ESLINT on save
          */
-        // extend(config, ctx) {
-        //     if (ctx.isClient) {
-        //         config.module.rules.push({
-        //             enforce: 'pre',
-        //             test: /\.(js|vue)$/,
-        //             loader: 'eslint-loader',
-        //             exclude: /(node_modules)/
-        //         })
-        //     }
-        // },
-        // vendor: ['axios'],
-        plugins: [new ExtractTextPlugin({
-            filename: 'styles.css'
-        })]
+    // extend(config, ctx) {
+    //     if (ctx.isClient) {
+    //         config.module.rules.push({
+    //             enforce: 'pre',
+    //             test: /\.(js|vue)$/,
+    //             loader: 'eslint-loader',
+    //             exclude: /(node_modules)/
+    //         })
+    //     }
+    // },
+    // vendor: ['axios'],
+    plugins: [new ExtractTextPlugin({
+      filename: 'styles.css'
+    })],
+    extend: function extend(config, ctx) {
+      var alias = config.resolve.alias;
+      var newAlias = {
+        '@src': path.resolve('src'),
+        '@components': path.resolve('components'),
+        '@pages': path.resolve('pages'),
+        '@utils': path.resolve('utils')
+      };
+      config.resolve.alias = Object.assign({}, alias, newAlias);
+      //   console.log(config)
     }
+  }
 };
 
 /***/ },
@@ -156,8 +168,8 @@ module.exports = require("regenerator-runtime");
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mnt_c_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__mnt_c_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__mnt_c_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_C_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_C_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_C_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_koa___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_koa__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_nuxt__ = __webpack_require__(3);
@@ -165,9 +177,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 
 
 var start = function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0__mnt_c_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee() {
+    var _ref = _asyncToGenerator( /*#__PURE__*/__WEBPACK_IMPORTED_MODULE_0_C_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator___default.a.mark(function _callee() {
         var app, host, port, config, nuxt, builder;
-        return __WEBPACK_IMPORTED_MODULE_0__mnt_c_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
+        return __WEBPACK_IMPORTED_MODULE_0_C_Users_CUMTHYB_Desktop_HPlan_node_modules_babel_runtime_regenerator___default.a.wrap(function _callee$(_context) {
             while (1) {
                 switch (_context.prev = _context.next) {
                     case 0:
@@ -226,6 +238,12 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 
 start();
+
+/***/ },
+/* 7 */
+/***/ function(module, exports) {
+
+module.exports = require("path");
 
 /***/ }
 /******/ ]);
