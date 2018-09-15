@@ -57,9 +57,9 @@ export default {
               image: () => {
                 this.$refs['upload'].click()
               },
-              // video: () => {
-              //   this.$refs['upload'].click()
-              // },
+              video: () => {
+                this.$refs['upload'].click()
+              },
             }
           }
         }
@@ -76,7 +76,7 @@ export default {
   methods: {
     onEditorBlur(editor) {
       // console.log('editor blur!', editor)
-      this.$emit('editor-blur',this.content)
+      this.$emit('editor-blur', this.content)
     },
     onEditorFocus(editor) {
       // console.log('editor focus!', editor)
@@ -90,7 +90,7 @@ export default {
     },
     onFileUpload(currentFileClassification, fileUrl) {
       let length = this.quill.getLength();
-      this.quill.insertEmbed(length,currentFileClassification, fileUrl)
+      this.quill.insertEmbed(length, currentFileClassification, fileUrl)
       this.quill.setSelection(length + 1) //调整光标到最后
     }
   }
