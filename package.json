@@ -23,8 +23,6 @@
         "mockjs": "^1.0.1-beta3",
         "nuxt": "latest",
         "qiniu": "^7.2.1",
-        "quill-image-drop-module": "^1.0.3",
-        "quill-image-resize-module": "^3.0.0",
         "regenerator-runtime": "^0.12.1",
         "source-map-support": "^0.4.15",
         "vue": "^2.5.17",
