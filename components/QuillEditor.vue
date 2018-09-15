@@ -1,5 +1,8 @@
 <template>
   <section class="quill-editor-container">
+    <Spin size="large"
+      fix
+      v-if="spinShow"></Spin>
     <div class="quill-editor"
       :content="content"
       @change="onEditorChange($event)"
@@ -23,6 +26,7 @@ import hljs from 'highlight.js'
 export default {
   data() {
     return {
+      spinShow: false,
       file: null,
       uptoken: '',
       modal1: false,
@@ -66,13 +70,18 @@ export default {
             }
           }
         }
-      }
+      },
+      fileType: {
+        image: ['png', 'jpeg', 'jpg', 'bmp', 'gif', 'ico'],
+        video: ['mp4', 'webm', 'ogg', 'mpeg4']
+      },
+      currentFileClassification: ''
     }
   },
   mounted() {
-    console.log('app init, my quill insrance object is:', this.myQuillEditor)
+    // console.log('app init, my quill insrance object is:', this.myQuillEditor)
     setTimeout(() => {
-      this.content = 'i am changed'
+      this.content = ''
     }, 3000)
   },
   methods: {
@@ -96,15 +105,31 @@ export default {
       // this.$Message.info('Clicked cancel');
     },
     fileChange(event) {
-      this.$http
-        .get('upload-token', '').then(r => {
-          this.uptoken = r.uptoken
-          this.getUpFileUrl(event.target.files[0])
-        }).catch(error => {
-          this.$Notice.error({
-            title: '上传凭证请求失败'
+      let file = event.target.files[0];
+      let fileType = file.type.toLowerCase().split('/')
+      let fileClassification = fileType[0];
+      let codeType = fileType[1];
+      if (this.fileType[fileClassification] && this.fileType[fileClassification].includes(codeType)) {
+        this.currentFileClassification=fileClassification
+        this.spinShow = true
+        this.$http
+          .get('upload-token', '').then(r => {
+            this.uptoken = r.uptoken
+            this.getUpFileUrl(file)
+          }).catch(error => {
+            this.spinShow = false
+
+            this.$Notice.error({
+              title: '上传凭证请求失败'
+            })
           })
+      }
+      else {
+        this.$Notice.error({
+          title: '暂不支持上传此文件'
         })
+      }
+
     },
     //获取上传的接口
     getUpFileUrl(files) {
@@ -122,19 +147,20 @@ export default {
     },
     upfile(form, serverUrl, fileName) {
       let quill = this.myQuillEditor
-      debugger
       var that = this;
       var xhrfile = new XMLHttpRequest();
       xhrfile.timeout = 600000;
       xhrfile.onreadystatechange = function () {
         if (xhrfile.readyState === 4) {
+         
           var fileResponse = xhrfile.response;
           if (xhrfile.status === 200) {
             let fileUrl = `http://pe3q7604z.bkt.clouddn.com/${fileResponse.key}`
 
             let length = quill.getLength();
             // 插入图片  res.info为服务器返回的图片地址
-            quill.insertEmbed(length, 'image', fileUrl)
+            // quill.insertEmbed(length, 'image', fileUrl)
+            quill.insertEmbed(length, that.currentFileClassification, fileUrl)
             // 调整光标到最后
             quill.setSelection(length + 1)
           } else {
@@ -142,8 +168,7 @@ export default {
               title: '上传失败请稍后重试'
             });
           }
-          that.isLoadding = false;
-          that.percent = 100;
+          that.spinShow = false
         }
       };
       xhrfile.open('POST', serverUrl, true);
