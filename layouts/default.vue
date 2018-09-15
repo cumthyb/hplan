@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import MyFooter from '../components/Footer.vue'
-import MyHeader from '../components/Header.vue'
+import MyFooter from '@components/Footer.vue'
+import MyHeader from '@components/Header.vue'
 
 export default {
   components: {
@@ -16,16 +16,6 @@ export default {
     MyHeader
   },
   mounted() {
-    window.onhashchange = function (e) {
-      console.log('old URL:', e.oldURL)
-      console.log('new URL', e.newURL)
-    }
-    window.onreadystatechange = function (e) {
-      debugger
-      console.log('===========readystatechange=========================')
-      console.log(document.location)
-      console.log('====================================')
-    }
   }
 }
 </script>

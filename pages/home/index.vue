@@ -19,11 +19,11 @@
   </div>
 </template>
 <script>
-import HeaderSearch from '@components/HeaderSearch'
-import CourseCarousel from '@components/CourseCarousel'
-import Advantage from '@components/Advantage'
-import Comments from '@components/Comments'
-import LoginCard from '@components/LoginCard'
+import HeaderSearch from './HeaderSearch'
+import CourseCarousel from './CourseCarousel'
+import Advantage from './Advantage'
+import Comments from './Comments'
+import LoginCard from './LoginCard'
 export default {
   components: {
     HeaderSearch,
