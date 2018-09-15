@@ -1,8 +1,7 @@
 <!--  -->
 <template>
   <div>
-    kkjkjkj
-    <QuillEditor></QuillEditor>
+    <QuillEditor @editor-blur='onEditorBlur' />
   </div>
 </template>
 
@@ -19,9 +18,13 @@ export default {
 
   computed: {},
 
-  mounted() {},
+  mounted() { },
 
-  methods: {}
+  methods: {
+    onEditorBlur(content) {
+      console.log(content)
+    }
+  }
 }
 </script>
 <style lang='less'>
