@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import psninfo from './psninfo.vue'
+import psninfo from './psnInfo.vue'
 import course from './course.vue'
 import task from './task.vue'
 export default {
@@ -78,9 +78,6 @@ export default {
 </script>
 <style lang='less'>
 .customer-info-center-panel {
-    width: 1200px;
-    height: 100%;
-    margin: 20px auto;
     .content {
     }
 }

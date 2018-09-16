@@ -22,7 +22,9 @@ module.exports = {
     '~node_modules/iview/dist/styles/iview.css',
     '~assets/css/quill.bubble.css',
     '~assets/css/quill.core.css',
-    '~assets/css/quill.snow.css'
+    '~assets/css/quill.snow.css',
+    '~node_modules/video.js/dist/video-js.css',
+    '~node_modules/vue-video-player/src/custom-theme.css'
   ],
   /*
      ** Customize the progress-bar color
@@ -33,7 +35,8 @@ module.exports = {
      */
   plugins: [
     { src: '~plugins/iview.js', ssr: true },
-    { src: '~plugins/nuxt-quill-plugin.js', ssr: false }
+    { src: '~plugins/nuxt-quill-plugin.js', ssr: false },
+    { src: '~plugins/nuxt-video-player-plugin.js', ssr: false }
   ],
   router: {
     mode: 'hash'
@@ -67,7 +70,7 @@ module.exports = {
         '@utils': path.resolve('utils')
       }
       config.resolve.alias = { ...alias, ...newAlias }
-    //   console.log(config)
+      //   console.log(config)
     }
   }
 }

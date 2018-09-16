@@ -1,7 +1,7 @@
 <template>
   <div>
     <my-header/>
-    <nuxt/>
+    <nuxt class="content-container" />
     <my-footer/>
   </div>
 </template>
@@ -51,5 +51,11 @@ export default {
     font-weight: 300;
     font-size: 2.5em;
     margin: 0;
+}
+.content-container {
+    width: 1200px;
+    overflow-y: auto;
+    /* height: 100%; */
+    margin: 20px auto;
 }
 </style>
