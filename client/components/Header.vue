@@ -100,6 +100,7 @@ export default {
     onLogout() {
       this.loginState = false
       this.$emit('logout', this.user.aliasname)
+      this.$store.commit('logout')
     },
     onRegister() {
       this.modalRegister = true

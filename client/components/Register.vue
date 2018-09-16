@@ -73,7 +73,7 @@ export default {
                 tel: '18513040628',
                 password: '2',
                 sex: '男',
-                qq: 787
+                qq: '787'
             },
             ruleRegister: {
                 username: [
@@ -145,7 +145,7 @@ export default {
     mounted() {
         this.formRegister.username = Mock.Random.first()
         this.formRegister.aliasname = Mock.Random.cname()
-        this.formRegister.qq = Mock.Random.integer(10000)
+        this.formRegister.qq = '' + Mock.Random.integer(10000)
     },
     methods: {
         handleRegister(username) {

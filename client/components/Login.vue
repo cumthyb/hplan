@@ -72,6 +72,7 @@ export default {
                                 title: '登陆成功'
                             })
                             setTimeout(() => {
+                                this.$store.commit('login', response.data)
                                 this.$emit('login-success', response.data)
                             }, 200)
                         })
@@ -86,7 +87,7 @@ export default {
                 }
             })
         },
-        cancelLogin(){
+        cancelLogin() {
             this.$emit('login-cancel')
         }
     },
