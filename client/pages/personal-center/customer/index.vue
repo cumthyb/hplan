@@ -2,9 +2,9 @@
 <template>
   <div class='customer-info-center-panel'>
     <Menu mode="horizontal"
-          :active-name="currentMenuItem"
-          class='menu'
-          @on-select='onMenuChange'>
+      :active-name="currentMenuItem"
+      class='menu'
+      @on-select='onMenuChange'>
       <MenuItem name="course">
       <Icon type="ios-paper"></Icon>
       我的课程
@@ -78,10 +78,10 @@ export default {
 </script>
 <style lang='less'>
 .customer-info-center-panel {
-  width: 1200px;
-  height: 100%;
-  margin: 20px auto;
-  .content {
-  }
+    width: 1200px;
+    height: 100%;
+    margin: 20px auto;
+    .content {
+    }
 }
 </style>
