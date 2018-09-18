@@ -16,13 +16,12 @@
                     class="split-pane course-detail">
                     <div class="name">
                         <h1> {{currentCourse.name}}</h1>
-                       
-                        </div>
+
+                    </div>
                     <div class="desc">{{currentCourse.desc}}</div>
                     <div class="video">
-                        <VedioPlayer :src='currentCourse.url'/>
-                      
-                        </div>
+                        <VedioPlayer :src='currentCourse.url' />
+                    </div>
                 </div>
             </Split>
         </div>
@@ -34,7 +33,7 @@ import Mock from 'mockjs'
 import VedioPlayer from '@components/VideoPlayer.vue'
 export default {
     components: {
-VedioPlayer
+        VedioPlayer
     },
     data() {
         return {
@@ -87,23 +86,23 @@ VedioPlayer
                 background-color: lightgrey;
             }
         }
-        .course-detail{
+        .course-detail {
             height: 100%;
             display: flex;
             flex-direction: column;
-            .name{
+            .name {
                 height: 30px;
                 text-align: center;
                 margin: 20px;
             }
-            .desc{
+            .desc {
                 height: 60px;
                 margin: 20px;
-                text-indent:2em;
+                text-indent: 2em;
                 font-size: 14px;
             }
-            .video{
-                flex: 1
+            .video {
+                flex: 1;
             }
         }
     }

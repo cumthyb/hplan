@@ -4,7 +4,7 @@
     <div class="task-info">
       <Card>
         <p slot="title">作业内容</p>
-        <div>
+        <div class="content">
           {{taskInfo.content}}
         </div>
       </Card>
@@ -13,18 +13,18 @@
     <div class="comment-teacher">
       <Card>
         <p slot="title">老师点评</p>
-        <div>
+        <div class="content">
           {{taskInfo.comment}}
         </div>
       </Card>
     </div>
-    <div class="comment-student">
+    <div v-if='corrected' class="comment-student">
       <span class="title">评价老师</span>
       <Rate clearable
         v-model="taskInfo.rate" />
     </div>
     <div class="cmd-panel">
-      <Button>继续写作业</Button>
+       <nuxt-link :to="{name:'member-tasklist'}">继续写作业</nuxt-link>
     </div>
   </div>
 </template>
@@ -37,7 +37,7 @@ export default {
   data() {
     return {
       taskId: '',
-      corrected: false,
+      corrected: true,
       rate: 2,
       taskInfo: {}
     };
@@ -66,9 +66,11 @@ export default {
     overflow-y: inherit;
     .task-info,
     .comment-teacher {
-        text-indent: 2em;
         padding: 10px 0;
         margin-bottom: 10px;
+        .content {
+            text-indent: 2em;
+        }
     }
 
     .comment-student {

@@ -21,9 +21,12 @@ export default {
   components: {
     Upload
   },
+  props:{
+    value:''
+  },
   data() {
     return {
-      content: '<p>I am Example</p>',
+      content: '',
       editorOption: {
         // some quill options
         modules: {
@@ -67,11 +70,20 @@ export default {
 
     }
   },
+  watch: {
+    value2(val) {
+      this.content=val
+      if (val != this.content) {
+        debugger
+        this.content = val
+      }
+    }
+  },
   mounted() {
     // console.log('app init, my quill insrance object is:', this.myQuillEditor)
-    setTimeout(() => {
-      this.content = ''
-    }, 3000)
+    // setTimeout(() => {
+    //   this.content = ''
+    // }, 3000)
   },
   methods: {
     onEditorBlur(editor) {
@@ -87,6 +99,7 @@ export default {
     onEditorChange({ editor, html, text }) {
       // console.log('editor change!', editor, html, text)
       this.content = html
+      this.$emit('input',this.content)
     },
     onFileUpload(currentFileClassification, fileUrl) {
       let length = this.quill.getLength();
