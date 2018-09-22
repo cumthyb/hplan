@@ -30,7 +30,7 @@
             <Avatar src="https://www.easyicon.net/api/resizeApi.php?id=1167486&size=24" />
           </template>
           <MenuItem name="3-1">
-          <nuxt-link :to="{name:'personal-center-customer',params:{ 'username': user.username }}">个人中心</nuxt-link>
+          <nuxt-link :to="{name:'member-psnInfo',params:{ 'username': user.username }}">个人中心</nuxt-link>
           </MenuItem>
           <MenuItem name="3-2">
           <span @click="onLogout">退出</span>

@@ -71,7 +71,7 @@ export default {
     }
   },
   watch: {
-    value2(val) {
+    value(val) {
       this.content=val
       if (val != this.content) {
         debugger

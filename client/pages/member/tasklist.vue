@@ -25,29 +25,29 @@
                 </div>
             </Split>
         </div>
-        <!-- <Drawer title="写作业"
+        <Drawer title="写作业"
             v-model="drawerShow"
             width="80%"
             :mask-closable="false"
             class="task-right-drawer"
-            :styles="styles"> -->
-        <div class="demo-drawer-footer">
-            <Button style="margin-right: 8px"
-                :disabled='quitDisable'
-                @click="drawerShow = false">离开草稿</Button>
-            <Button type="primary"
-                v-if='modifyDisable'
-                @click="onModifyTask">修改作业</Button>
-            <Button type="primary"
-                :disabled='submitDisable'
-                @click="onSubmitTask">提交作业</Button>
-        </div>
-        <QuillEditor v-show='taskContentEdit'
-            v-model="taskContent"
-            @editor-blur='onEditorBlur' />
-        <div v-if='!taskContentEdit'
-            v-html="taskContent"></div>
-        <!-- </Drawer> -->
+            :styles="styles">
+            <div class="demo-drawer-footer">
+                <Button style="margin-right: 8px"
+                    :disabled='quitDisable'
+                    @click="drawerShow = false">离开草稿</Button>
+                <Button type="primary"
+                    v-if='modifyDisable'
+                    @click="onModifyTask">修改作业</Button>
+                <Button type="primary"
+                    :disabled='submitDisable'
+                    @click="onSubmitTask">提交作业</Button>
+            </div>
+            <QuillEditor v-show='taskContentEdit'
+                :value="taskContent"
+                @editor-blur='onEditorBlur' />
+            <div v-if='!taskContentEdit'
+                v-html="taskContent"></div>
+        </Drawer>
     </div>
 </template>
 
