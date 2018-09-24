@@ -5,14 +5,14 @@
             :rules="ruleRegister"
             :label-width="80">
             <FormItem label="用户名"
-                prop="username">
-                <Input v-model="formRegister.username"
-                    placeholder="Enter your username"></Input>
+                prop="name">
+                <Input v-model="formRegister.name"
+                    placeholder="Enter your name"></Input>
             </FormItem>
             <FormItem label="昵称"
-                prop="aliasname">
-                <Input v-model="formRegister.aliasname"
-                    placeholder="Enter your username"></Input>
+                prop="alias">
+                <Input v-model="formRegister.alias"
+                    placeholder="Enter your name"></Input>
             </FormItem>
             <FormItem label="性别"
                 prop="sex">
@@ -37,16 +37,16 @@
                     placeholder="Enter your tel"></Input>
             </FormItem>
             <FormItem label="密码"
-                prop="password">
-                <Input v-model="formRegister.password"
-                    type='password'
-                    placeholder="Enter your password"></Input>
+                prop="pwd">
+                <Input v-model="formRegister.pwd"
+                    type='pwd'
+                    placeholder="Enter your pwd"></Input>
             </FormItem>
             <FormItem label="确认密码"
-                prop="password">
-                <Input v-model="formRegister.password"
-                    type='password'
-                    placeholder="Enter your password"></Input>
+                prop="pwd">
+                <Input v-model="formRegister.pwd"
+                    type='pwd'
+                    placeholder="Enter your pwd"></Input>
             </FormItem>
             <FormItem>
                 <Button type="primary"
@@ -67,26 +67,26 @@ export default {
     data() {
         return {
             formRegister: {
-                username: '1',
-                aliasname: '',
+                name: '1',
+                alias: '',
                 email: 'email@server.com',
                 tel: '18513040628',
-                password: '2',
+                pwd: '2',
                 sex: '男',
                 qq: '787'
             },
             ruleRegister: {
-                username: [
+                name: [
                     {
                         required: true,
-                        message: 'The username cannot be empty',
+                        message: 'The name cannot be empty',
                         trigger: 'blur'
                     }
                 ],
-                aliasname: [
+                alias: [
                     {
                         required: true,
-                        message: 'The aliasname cannot be empty',
+                        message: 'The alias cannot be empty',
                         trigger: 'blur'
                     }
                 ],
@@ -126,10 +126,10 @@ export default {
                         trigger: 'blur'
                     }
                 ],
-                password: [
+                pwd: [
                     {
                         required: true,
-                        message: 'Please enter a personal password',
+                        message: 'Please enter a personal pwd',
                         trigger: 'blur'
                     },
                     {
@@ -143,13 +143,13 @@ export default {
         }
     },
     mounted() {
-        this.formRegister.username = Mock.Random.first()
-        this.formRegister.aliasname = Mock.Random.cname()
+        this.formRegister.name = Mock.Random.first()
+        this.formRegister.alias = Mock.Random.cname()
         this.formRegister.qq = '' + Mock.Random.integer(10000)
     },
     methods: {
-        handleRegister(username) {
-            this.$refs[username].validate(valid => {
+        handleRegister(name) {
+            this.$refs[name].validate(valid => {
                 if (valid) {
                     this.$http
                         .post('member-register', this.formRegister)
@@ -172,8 +172,8 @@ export default {
                 }
             })
         },
-        handleReset(username) {
-            this.$refs[username].resetFields()
+        handleReset(name) {
+            this.$refs[name].resetFields()
         }
     },
 }

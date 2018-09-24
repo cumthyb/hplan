@@ -5,15 +5,15 @@
             :rules="ruleLogin"
             :label-width="80">
             <FormItem label="用户名"
-                prop="username">
-                <Input v-model="formLogin.username"
-                    placeholder="Enter your username"></Input>
+                prop="name">
+                <Input v-model="formLogin.name"
+                    placeholder="Enter your name"></Input>
             </FormItem>
             <FormItem label="密码"
-                prop="password">
-                <Input v-model="formLogin.password"
+                prop="pwd">
+                <Input v-model="formLogin.pwd"
                     type='password'
-                    placeholder="Enter your password"></Input>
+                    placeholder="Enter your pwd"></Input>
             </FormItem>
             <FormItem>
                 <Button type="primary"
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 export default {
     components: {
 
@@ -33,37 +34,34 @@ export default {
     data() {
         return {
             formLogin: {
-                username: 'Daniel',
-                password: '2'
+                name: '',
+                pwd: '2'
             },
             ruleLogin: {
-                username: [
+                name: [
                     {
                         required: true,
-                        message: 'The username cannot be empty',
+                        message: 'The name cannot be empty',
                         trigger: 'blur'
                     }
                 ],
 
-                password: [
+                pwd: [
                     {
                         required: true,
-                        message: 'Please enter a personal password',
-                        trigger: 'blur'
-                    },
-                    {
-                        type: 'string',
-                        max: 20,
-                        message: 'Introduce no less than 20 words',
+                        message: 'Please enter a personal pwd',
                         trigger: 'blur'
                     }
                 ]
             }
         }
     },
+    mounted(){
+        this.formLogin.name=Cookies.get('name')
+    },
     methods: {
-        handleLogin(username) {
-            this.$refs[username].validate(valid => {
+        handleLogin(name) {
+            this.$refs[name].validate(valid => {
                 if (valid) {
                     this.$http
                         .post('member-login', this.formLogin)
@@ -73,6 +71,7 @@ export default {
                             })
                             setTimeout(() => {
                                 this.$store.commit('login', response.data)
+                                
                                 this.$emit('login-success', response.data)
                             }, 200)
                         })

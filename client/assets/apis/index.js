@@ -19,5 +19,13 @@ export default {
   'upload-token': {
     url: '/api/uptoken',
     method: 'get'
+  },
+  ////////////课程系类////////////////
+  //新建课程系列
+  'create-course-series': {
+    url: '/api/course-series/creat',
+    method: 'post'
   }
+
+  ///////////////////////////
 }

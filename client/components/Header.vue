@@ -14,7 +14,7 @@
     </div>
     <div class='right'>
       <span v-if='loginState'
-        class='user'>欢迎用户{{user.aliasname}}</span>
+        class='user'>欢迎用户{{user.alias}}</span>
       <span v-if='!loginState'
         class='user canclick'
         @click="onLogin">登陆</span>
@@ -30,7 +30,7 @@
             <Avatar src="https://www.easyicon.net/api/resizeApi.php?id=1167486&size=24" />
           </template>
           <MenuItem name="3-1">
-          <nuxt-link :to="{name:'member-psnInfo',params:{ 'username': user.username }}">个人中心</nuxt-link>
+          <nuxt-link :to="{name:'member-psnInfo',params:{ 'name': user.name }}">个人中心</nuxt-link>
           </MenuItem>
           <MenuItem name="3-2">
           <span @click="onLogout">退出</span>
@@ -71,8 +71,8 @@ export default {
   data() {
     return {
       user: {
-        username: '',
-        aliasname: ''
+        name: '',
+        alias: ''
       },
       loginState: false,
       modalLogin: false,
@@ -99,7 +99,7 @@ export default {
     },
     onLogout() {
       this.loginState = false
-      this.$emit('logout', this.user.aliasname)
+      this.$emit('logout', this.user.alias)
       this.$store.commit('logout')
     },
     onRegister() {
