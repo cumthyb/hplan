@@ -25,7 +25,19 @@ export default {
   'create-course-series': {
     url: '/api/course-series/creat',
     method: 'post'
-  }
+  },
 
-  ///////////////////////////
+  //获取所有课程系列
+  'find-all-course-series': {
+    url: '/api/course-series/findAll',
+    method: 'get'
+  },
+
+  ////////////上传课程///////////////
+
+    //上传课程
+  'create-course': {
+    url: '/api/course/create',
+    method: 'post'
+  },
 }

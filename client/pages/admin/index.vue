@@ -31,14 +31,14 @@
   </div>
 </template>
 <script>
-import createCourse from './createCourse.vue'
+import createSeries from './createSeries.vue'
 import uploadCourse from './uploadCourse.vue'
 import manageCourse from './manageCourse.vue'
 import correctHomework from './correctHomework.vue'
 export default {
   name: 'personalcenter-customer',
   components: {
-    'create': createCourse,
+    'create': createSeries,
     'upload': uploadCourse,
     'manage': manageCourse,
     'homework': correctHomework

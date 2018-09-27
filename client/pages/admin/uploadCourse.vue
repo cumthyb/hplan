@@ -47,9 +47,9 @@
                 </Button>
             </FormItem>
             <FormItem label="课程分类"
-                prop="classify">
-                <Select v-model="formItem.classify"
-                    style="width:200px">
+                prop="series">
+                <Select v-model="formItem.series"
+                    style="width:600px">
                     <Option v-for="item in courseSeriesList"
                         :value="item.value"
                         :key="item.value">{{ item.label }}</Option>
@@ -72,6 +72,8 @@
 
 </template>
 <script>
+import Mock from 'mockjs'
+import alimask from 'alimask';
 import SectionTitle from '@components/SectionTitle.vue'
 
 export default {
@@ -85,7 +87,10 @@ export default {
             formItem: {
                 title: '',
                 desc: '',
-                publish: 'no'
+                publish: 'no',
+                coverimg: '',
+                videourl: '',
+                audiourl: ''
             },
             ruleValidate: {
                 title: [
@@ -98,16 +103,43 @@ export default {
             }
         }
     },
+    mounted() {
+
+        this.formItem.title = Mock.Random.csentence(10, 20);
+        this.formItem.desc = Mock.Random.cparagraph(10, 20);
+
+        this.formItem.coverimg=alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
+        this.formItem.videourl=alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
+        this.formItem.audiourl=alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
+
+
+
+        this.getSeries();
+    },
     methods: {
+        getSeries() {
+            this.$http.get('find-all-course-series', '').then(r => {
+                this.courseSeriesList = r.data;
+            }).catch(e => {
+                this.$Message.error(e.message);
+            })
+        },
         handleAdd() {
 
         },
         handleSubmit(name) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
-                    this.$Message.success('Success!');
+                    let params = Object.assign({}, this.formItem, { publish: this.formItem.publish == 'yes' })
+                    this.$http.post('create-course', this.formItem).then(r => {
+                        this.courseSeriesList = r.data;
+                        this.$Message.success('操作成功!');
+                    }).catch(e => {
+                        this.$Message.error(e.message);
+                    })
+
                 } else {
-                    this.$Message.error('Fail!');
+                    this.$Message.error('请填写完整表单');
                 }
             })
         },

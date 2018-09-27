@@ -39,13 +39,13 @@
             <FormItem label="密码"
                 prop="pwd">
                 <Input v-model="formRegister.pwd"
-                    type='pwd'
+                    type='password'
                     placeholder="Enter your pwd"></Input>
             </FormItem>
             <FormItem label="确认密码"
                 prop="pwd">
                 <Input v-model="formRegister.pwd"
-                    type='pwd'
+                    type='password'
                     placeholder="Enter your pwd"></Input>
             </FormItem>
             <FormItem>

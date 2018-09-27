@@ -32,6 +32,7 @@
 
 </template>
 <script>
+import Mock from 'mockjs'
 import SectionTitle from '@components/SectionTitle.vue'
 
 export default {
@@ -55,11 +56,15 @@ export default {
             }
         }
     },
+    mounted() {
+        this.formItem.title = Mock.Random.csentence(10, 20);
+        this.formItem.desc = Mock.Random.cparagraph(10, 20);
+    },
     methods: {
         handleSubmit(name) {
             this.$refs[name].validate((valid) => {
                 if (valid) {
-                    let params=this.formItem
+                    let params = this.formItem
                     this.doSubmit(params).then(data => {
                         this.$Message.success('操作成功!');
                         this.handleReset(name)
