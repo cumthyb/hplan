@@ -32,7 +32,8 @@ axios.interceptors.request.use(config => {
     // } else {
     //     config.baseURL = '/';
     // }
-    config.baseURL = 'http://127.0.0.1:4000' //后端接口访问4000端口 由nginx配置代理
+    // config.baseURL = 'http://127.0.0.1:4000' //后端接口访问4000端口 由nginx配置代理
+    config.baseURL = 'http://118.89.230.43:3011' //后端接口访问4000端口 由nginx配置代理
     return config
 }, error => {
     return Promise.reject(error)
