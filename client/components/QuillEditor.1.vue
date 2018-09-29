@@ -15,20 +15,18 @@
 </template>
 
 <script>
-import hljs from 'highlight.js'
 import Upload from './Upload.vue'
 
 export default {
   components: {
     Upload
   },
-  props: {
-    value: ''
+  props:{
+    value:''
   },
   data() {
     return {
       content: '',
-      contentCode: '',
       editorOption: {
         // some quill options
         modules: {
@@ -47,7 +45,7 @@ export default {
               [{ color: [] }, { background: [] }],
               [{ align: [] }],
               ['link', 'image', 'video'],
-              ['clean', 'annotate']
+              ['clean']
             ],
             handlers: {
               // handlers object will be merged with default handlers object
@@ -65,37 +63,6 @@ export default {
               video: () => {
                 this.$refs['upload'].click()
               },
-              annotate: () => {
-                var range = this.quill.getSelection();
-                if (range) {
-                  if (range.length == 0) {
-                    this.$Notice.error({
-                      title: '请先选择要批注的范围'
-                    })
-                    console.log('User cursor is at index', range.index);
-                  } else {
-                    var text = this.quill.getText(range.index, range.length);
-                    var href = prompt('输入批注内容')
-                    if (href) {
-                      // this.quill.format('link', href)
-
-                      this.quill.formatText(range.index, range.length, {                   // unbolds 'hello' and set its color to blue
-                        'bold': true,
-                        'color': '#FCE5EA',
-                        'background': '#E5335D'
-                      });
-                      this.quill.insertText(range.index+range.length, '<span>Quill</span>', {
-                        'display': 'none',
-                        'color': '#ffff00',
-                        'italic': true
-                      });
-                    }
-
-                  }
-                } else {
-                  console.log('User cursor is not in editor');
-                }
-              }
             }
           }
         }
@@ -105,13 +72,13 @@ export default {
   },
   watch: {
     value(val) {
-      this.content = val
+      this.content=val
       if (val != this.content) {
+        debugger
         this.content = val
       }
-    },
+    }
   },
-
   mounted() {
     // console.log('app init, my quill insrance object is:', this.myQuillEditor)
     // setTimeout(() => {
@@ -132,9 +99,8 @@ export default {
     onEditorChange({ editor, html, text }) {
       // console.log('editor change!', editor, html, text)
       this.content = html
-      this.$emit('input', this.content)
+      this.$emit('input',this.content)
     },
-
     onFileUpload(currentFileClassification, fileUrl) {
       let length = this.quill.getLength();
       this.quill.insertEmbed(length, currentFileClassification, fileUrl)
@@ -151,15 +117,6 @@ export default {
     padding: 50px 0;
     // text-align: left;
     height: 100%;
-    .ql-annotate {
-        position: relative;
-        top: -2px;
-        &::after {
-            content: "C";
-            font-size: 16px;
-            font-weight: 700;
-        }
-    }
     .quill-editor {
         height: 100%;
         min-height: 500px;
