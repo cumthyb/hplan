@@ -12,6 +12,7 @@
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore ."
     },
     "dependencies": {
+        "alimask": "^1.0.3",
         "axios": "^0.18.0",
         "cos-js-sdk-v5": "^0.4.14",
         "cross-env": "^5.0.1",
