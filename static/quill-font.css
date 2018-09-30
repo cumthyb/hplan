@@ -43,6 +43,18 @@
   font-size: 20px;
 }
 
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="24px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="24px"]::before {
+  content: '24px';
+  font-size: 24px;
+}
+
+.ql-snow .ql-picker.ql-size .ql-picker-label[data-value="30px"]::before,
+.ql-snow .ql-picker.ql-size .ql-picker-item[data-value="30px"]::before {
+  content: '30px';
+  font-size: 30px;
+}
+
 .ql-snow .ql-picker.ql-font .ql-picker-label[data-value=SimSun]::before,
 .ql-snow .ql-picker.ql-font .ql-picker-item[data-value=SimSun]::before {
   content: "宋体";

@@ -26,7 +26,7 @@ import Upload from './Upload.vue'
 
 // 自定义字体大小
 let Size = Quill.import('attributors/style/size')
-Size.whitelist = ['10px', '12px', '14px', '16px', '18px', '20px']
+Size.whitelist = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '30px']
 Quill.register(Size, true)
 
 // 自定义字体类型
@@ -83,7 +83,7 @@ export default {
               [{ script: 'sub' }, { script: 'super' }],
               [{ indent: '-1' }, { indent: '+1' }],
               [{ direction: 'rtl' }],
-              [{ size: ['small', false, 'large', 'huge', '10px', '12px', '14px', '16px', '18px', '20px'] }],
+              [{ size: ['small', false, 'large', 'huge', '10px', '12px', '14px', '16px', '18px', '20px', '24px', '30px'] }],
               [{ header: [1, 2, 3, 4, 5, 6, false] }],
               [{ font: fonts }],
               [{ color: [] }, { background: [] }],
@@ -117,6 +117,7 @@ export default {
                     console.log('User cursor is at index', range.index);
                   } else {
                     var text = this.quill.getText(range.index, range.length);
+                    var format = this.quill.getFormat(range.index, range.length);
                     var content = prompt('输入批注内容')
                     if (content) {
                       this.quill.formatText(range.index, range.length, {                   // unbolds 'hello' and set its color to blue
@@ -124,11 +125,44 @@ export default {
                         'color': '#FCE5EA',
                         'background': '#E5335D'
                       });
-                      let commemtId=(new Date()).getTime()
+                      let commemtId = (new Date()).getTime()
                       this.quill.deleteText(range.index, range.length)
-                      let commentData = this.getCommentData(range.index, range.length, text, content)
-                      var cObj = { html: `<span class='comment-item' data-commemtId='${commemtId}'><span>${text}</span><div class='comment-container' id='${commemtId}'><div class='header'>${text}</div><div class='content' contenteditable='true'> ${content}</div></div></span>`, data: JSON.stringify(commentData) };
+                      let commentData = this.getCommentData(range.index, range.length, text, content, format)
+                      var cObj = {
+                        html: `<span class='comment-item' data-commemtId='${commemtId}'><span id='__${commemtId}' class='embed-text'>${text}</span>` +
+                          `<div class='comment-container' id='_${commemtId}'>` +
+                          `<div class='header'><span class='title'>${text}</span>` +
+                          `<span class='btn close'>×</span></div>` +
+                          `<div class='content' contenteditable='true'>${content}</div></div></span>`,
+                        data: JSON.stringify(commentData)
+                      };
                       this.quill.insertEmbed(range.index, "proc-link", cObj)
+                      let _this = this;
+                      setTimeout(() => {
+                        var embedTextDom = document.querySelector('#__' + commemtId)
+                        var containerDom = document.querySelector('#_' + commemtId)
+                        var btnDom = document.querySelector('#_' + commemtId+" .close")
+                        embedTextDom.onclick = () => {
+                          var arr = containerDom.classList
+                          if (arr.contains('active-comment')) {
+                            containerDom.classList.remove("active-comment");
+                            embedTextDom.onmouseover = () => {
+                              containerDom.classList.add("active-comment");
+                            }
+                            embedTextDom.onmouseout = () => {
+                              containerDom.classList.remove("active-comment");
+                            }
+                          } else {
+                            containerDom.classList.add("active-comment");
+                            embedTextDom.onmouseout = null;
+                            embedTextDom.onmouseover = null;
+                          }
+
+                        }
+                        btnDom.onclick = () => {
+                          _this.closeComment('_' + commemtId, commentData)
+                        }
+                      }, 1000);
                     }
 
                   }
@@ -158,12 +192,15 @@ export default {
     var commentDom = document.createElement('div');
     commentDom.className = 'quill-comment'
     this.editorDom = document.querySelector(selector)
-    this.editorDom.appendChild(commentDom)
-    this.commentDom = commentDom;
+    setTimeout(() => {
+      this.editorDom.appendChild(commentDom)
+      this.commentDom = commentDom;
+    }, 500);
+
     // selector = `#editor_${this._uid} .ql-editor`
     // this.editorDom = document.querySelector(selector)
     // this.$nextTick(() => {
-    // this.editorDom.addEventListener('mouseup', this.onEditorMouseUp)
+    //   this.editorDom.addEventListener('mouseup', this.onEditorMouseUp)
     // })
   },
   methods: {
@@ -189,25 +226,25 @@ export default {
       this.quill.setSelection(length + 1) //调整光标到最后
     },
     onEditorMouseUp(e) {
-      console.log(e)
-      this.mouseposition = e;
+      // console.log(e)
+      // this.mouseposition = e;
+      // console.log(this.content)
     },
-    getCommentData(startIndex, length, original, comment) {
+    getCommentData(startIndex, length, original, comment, format) {
       return {
         startIndex: startIndex,
         length: length,
         original: original,
-        comment: comment
+        comment: comment,
+        format: format
       }
-
     },
-    insertComment(text) {
-      var commentItemDom = document.createElement('div');
-      commentItemDom.className = 'quill-comment-item'
-      commentItemDom.style.position = 'absolute'
-      commentItemDom.style.top = (this.mouseposition.clientY - 145) + 'px'
-      commentItemDom.innerText = text
-      this.commentDom.appendChild(commentItemDom)
+    closeComment(commemtId, commentData) {
+      console.log('closeComment')
+      this.quill.removeFormat(commentData.startIndex, commentData.length);
+      this.quill.insertText(commentData.startIndex, commentData.original) 
+      this.quill.formatText(commentData.startIndex, commentData.length * 2, commentData.format);
+
     }
 
   }
@@ -216,96 +253,114 @@ export default {
 
 <style lang="less">
 .quill-editor-container {
-  width: 1066px;
-  box-sizing: border-box;
-  margin: 0 auto;
-  // max-height: 1200px;
-  .ql-toolbar {
-    background-color: #f7f7f7;
-    height: 46px;
-    padding: 0;
-    padding-bottom: 8px;
-    padding-top: 11px;
-    white-space: nowrap;
-    border: none;
+    width: 1066px;
+    box-sizing: border-box;
     margin: 0 auto;
-    text-align: center;
-    font-family: Helvetica, Tahoma, Arial, Hiragino Sans GB, Microsoft YaHei,
-      sans-serif;
-    transition: height 0.2s ease-in;
-    transition: height 0.2s ease-in;
-    .ql-annotate {
-      position: relative;
-      top: -2px;
-      &::after {
-        content: "C";
-        font-size: 16px;
-        font-weight: 700;
-      }
-    }
-  }
-
-  .quill-editor {
-    min-height: 800px;
-    padding-right: 250px;
-    background-color: #fff;
-    border-bottom: 1px solid #d9d9d9;
-    box-shadow: 0 1px 6px #ccc;
-    .comment-embed {
-      text-decoration: underline;
-      color: #fce5ea;
-      background: #e5335d;
-      cursor: pointer;
-      .comment-item {
-        .comment-container {
-          display: inline-block;
-          width: 230px;
-          position: absolute;
-          left: 826px;
-          text-align: left;
-          color: #e5335d;
-          font-size: 12px;
-          z-index: 100;
-
-          max-height: 300px;
-          overflow: auto;
-          background: #fff;
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-          border-radius: 2px;
-          position: absolute;
-          cursor: pointer;
-          transition: opacity 0.3s ease-out, margin-left 0.3s ease,
-            top 0.3s ease;
-
-          padding: 5px 10px;
-
-          opacity: 0.5;
-          &:hover {
-            opacity: 1;
-            z-index: 101;
-          }
-          .header {
-            border-bottom: 1px dashed #f00;
-          }
-          .content {
-            padding-top: 2px;
-            padding-bottom: 2px;
-            color: #333;
-            line-height: 18px;
-            word-break: break-word;
-          }
+    // max-height: 1200px;
+    .ql-toolbar {
+        background-color: #f7f7f7;
+        height: 46px;
+        padding: 0;
+        padding-bottom: 8px;
+        padding-top: 11px;
+        white-space: nowrap;
+        border: none;
+        margin: 0 auto;
+        text-align: center;
+        font-family: Helvetica, Tahoma, Arial, Hiragino Sans GB, Microsoft YaHei,
+            sans-serif;
+        transition: height 0.2s ease-in;
+        transition: height 0.2s ease-in;
+        .ql-annotate {
+            position: relative;
+            top: -2px;
+            &::after {
+                content: 'C';
+                font-size: 16px;
+                font-weight: 700;
+            }
         }
-      }
     }
-  }
-  .quill-comment {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 250px;
-    height: 100%;
 
-    border-left: 1px solid #ccc;
-  }
+    .quill-editor {
+        min-height: 800px;
+        padding-right: 250px;
+        background-color: #fff;
+        border-bottom: 1px solid #d9d9d9;
+        box-shadow: 0 1px 6px #ccc;
+        .comment-embed {
+            .embed-text {
+                text-decoration: underline;
+                color: #fce5ea;
+                background: #e5335d;
+                cursor: pointer;
+            }
+            .comment-item {
+                .comment-container {
+                    display: inline-block;
+                    width: 230px;
+                    position: absolute;
+                    left: 826px;
+                    text-align: left;
+                    color: #e5335d;
+                    font-size: 12px;
+                    z-index: 100;
+                    max-height: 300px;
+                    overflow: auto;
+                    background: #fff;
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+                    border-radius: 2px;
+                    position: absolute;
+                    transition: opacity 0.3s ease-out, margin-left 0.3s ease,
+                        top 0.3s ease;
+                    padding: 5px 10px;
+                    opacity: 0.5;
+                    &:hover {
+                        opacity: 1;
+                        z-index: 101;
+                    }
+                    .header {
+                        border-bottom: 1px dashed #f00;
+                        .title {
+                            font-size: 12px;
+                            display: inline-block;
+                            max-width: 180px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                        .btn {
+                            cursor: pointer;
+                            user-select: none;
+                            font-size: 26px;
+                            position: absolute;
+                            right: 10px;
+                            top: -5px;
+                        }
+                    }
+                    .content {
+                        padding-top: 5px;
+                        padding-bottom: 2px;
+                        color: #333;
+                        line-height: 18px;
+                        word-break: break-word;
+                    }
+                }
+                .active-comment {
+                    opacity: 1;
+                    z-index: 101;
+                }
+            }
+        }
+    }
+    .quill-comment {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 250px;
+        height: 100%;
+
+        border-left: 1px solid #ccc;
+    }
 }
 </style>
