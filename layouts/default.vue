@@ -1,6 +1,6 @@
 <template>
     <div>
-        <my-header />
+        <!-- <my-header /> -->
         <nuxt class="content-container" />
         <my-footer />
     </div>
@@ -56,7 +56,9 @@ export default {
 .content-container {
   width: 1200px;
   overflow-y: auto;
-  /* height: 100%; */
+  height: 100%;
   margin: 20px auto;
+  background-color: #F6F6F6;
+  padding-bottom: 20px;
 }
 </style>
