@@ -19,7 +19,7 @@ export default {
         }
     },
     mounted() {
-        this.taskContent = '<p><br></p><h2 class="ql-align-center"><span class="ql-size-huge">创业大街社区</span></h2><ol><li>创业大街社区是氪空间的第一座社区，2014年4月22日诞生于中国创新创业核心聚集区中关村创业大街，被称为中国的“独角兽诞生地”。社区面积约2000平米，空间内还包含休息区、会议室、路演厅、氪咖啡、露天阳台等。通过打造良好的社群氛围，提供专业的创业指导，整合丰富的资源，为企业建立起一条完整的生态闭环，成为中国最优秀的联合办公空间。</li></ol><p><br></p><p><br></p><p class="ql-align-center"><img src="https://img.krspace.cn/community_public_upload/201808/U/153918826_867.jpg"></p><p class="ql-align-center"><br></p>'
+        this.taskContent = '<p><br></p><h2 class="ql-align-center"><span class="ql-size-huge">创业大街社区</span></h2><ol><li>创业大街社区是氪空间的第一座社区，2014年4月22日诞生于中国创新创业核心聚集区中关村创业大街，被称为中国的“独角兽诞生地”。社区面积约2000平米，空间内还包含休息区、会议室、路演厅、氪咖啡、露天阳台等。通过打造良好的社群氛围，提供专业的创业指导，整合丰富的资源，为企业建立起一条完整的生态闭环，成为中国最优秀的联合办公空间。</li></ol><p><br></p><p><br></p>'
     },
 
     methods: {
