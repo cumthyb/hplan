@@ -58,7 +58,7 @@ export default {
   overflow-y: auto;
   height: 100%;
   margin: 20px auto;
-  background-color: #F6F6F6;
+  /* background-color: #F6F6F6; */
   padding-bottom: 20px;
 }
 </style>

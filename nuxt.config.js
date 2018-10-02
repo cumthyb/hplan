@@ -65,13 +65,14 @@ module.exports = {
       let alias = config.resolve.alias
       let newAlias = {
         '@src': path.resolve('src'),
+        '@config': path.resolve('config'),
         '@static': path.resolve('static'),
         '@components': path.resolve('components'),
         '@pages': path.resolve('pages'),
         '@utils': path.resolve('utils')
       }
       config.resolve.alias = { ...alias, ...newAlias }
-        console.log(config)
+      console.log(config)
     }
   }
 }

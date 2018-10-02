@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import config from '@config/index.js'
 export default {
     components: {
 
@@ -73,7 +74,7 @@ export default {
             form.append('fname', files.name);
             form.append('file', files);
             form.append("key", (new Date()).getTime());
-            this.upfile(form, 'http://up-z1.qiniup.com', files.name)
+            this.upfile(form, config.qiniuZone, files.name)
         },
 
         //执行上传
@@ -85,7 +86,7 @@ export default {
                 if (xhrfile.readyState === 4) {
                     var fileResponse = xhrfile.response;
                     if (xhrfile.status === 200) {
-                        let fileUrl = `http://pe3q7604z.bkt.clouddn.com/${fileResponse.key}`
+                        let fileUrl = `//${config.qiniuDomain}/${fileResponse.key}`
                         that.$emit('upload-success', that.currentFileClassification, fileUrl)
 
                     } else {

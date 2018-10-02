@@ -22,17 +22,18 @@
             </FormItem>
 
             <FormItem label="上传封面"
-                prop="pic">
+                prop="coverimg">
                 <!-- <input v-model="formItem.pic"
                     type="file"
                     style="display:none"
                     </input> -->
-                <Button type="dashed"
+                <!-- <Button type="dashed"
                     long
                     @click="handleAdd"
                     icon="md-add">
                     上传封面
-                </Button>
+                </Button> -->
+                <FileUpload v-model="formItem.coverimg"></FileUpload>
             </FormItem>
             <FormItem label="上传视频"
                 prop="video">
@@ -75,10 +76,13 @@
 import Mock from 'mockjs'
 import alimask from 'alimask';
 import SectionTitle from '@components/SectionTitle.vue'
+import FileUpload from '@components/UploadImgCloud.vue'
+
 
 export default {
     components: {
-        SectionTitle
+        SectionTitle,
+        FileUpload
     },
     data() {
         return {
@@ -88,7 +92,7 @@ export default {
                 title: '',
                 desc: '',
                 publish: 'no',
-                coverimg: '',
+                coverimg: [],
                 videourl: '',
                 audiourl: ''
             },
@@ -108,9 +112,13 @@ export default {
         this.formItem.title = Mock.Random.csentence(10, 20);
         this.formItem.desc = Mock.Random.cparagraph(10, 20);
 
-        this.formItem.coverimg=alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
-        this.formItem.videourl=alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
-        this.formItem.audiourl=alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
+        this.formItem.coverimg = [{
+            name: 'demo',
+            mimeType:'',
+            url: alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 })
+        }];
+        // this.formItem.videourl = alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
+        // this.formItem.audiourl = alimask('花生地:' + this.formItem.title, { color: '#f6dcd7', alpha: 0.5 });
 
 
 
@@ -131,6 +139,7 @@ export default {
             this.$refs[name].validate((valid) => {
                 if (valid) {
                     let params = Object.assign({}, this.formItem, { publish: this.formItem.publish == 'yes' })
+                    console.log(this.formItem)
                     this.$http.post('create-course', this.formItem).then(r => {
                         this.courseSeriesList = r.data;
                         this.$Message.success('操作成功!');
