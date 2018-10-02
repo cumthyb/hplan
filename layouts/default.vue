@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style>
-@import "static/quill-font.css";
+@import "static/quill/quill-font.css";
 .container {
   margin: 0;
   width: 100%;
