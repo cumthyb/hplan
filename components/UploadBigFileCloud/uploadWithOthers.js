@@ -290,6 +290,7 @@ function uploadWithOthers(token, putExtra, config, domain) {
       }
       // 设置上传的header信息
       var headers = qiniu.getHeadersForMkFile(token)
+      console.log(headers)
       $.ajax({url: requestUrl, type: "POST",  headers: headers, data: ctx.join(","), success: function(res){
         uploadFinish(res, file.name,board[id]);
       }})

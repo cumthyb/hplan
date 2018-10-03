@@ -12,7 +12,8 @@ module.exports = {
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: 'Nuxt.js project' }
     ],
-    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [{ src: '/plupload.full.min.js' }, { src: '/qiniu.min.js' }]
   },
   /*
      ** Global CSS
@@ -72,7 +73,7 @@ module.exports = {
         '@utils': path.resolve('utils')
       }
       config.resolve.alias = { ...alias, ...newAlias }
-      console.log(config)
+      // console.log(config)
     }
   }
 }
