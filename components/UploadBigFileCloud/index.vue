@@ -5,20 +5,30 @@
             :id='"load_"+_uid'
             class="btn">加载</Button>
 
+        <Table ref="myTable"
+            :columns="columns"
+            :data="uploadFiles">
+            <!-- 进度 -->
+            <template slot="percent"
+                slot-scope="props">
+                <Progress :stroke-width="20"
+                    class="progress"
+                    :percent="props.row.percent"
+                    status="active" />
+            </template>
 
-            
-        <Progress :stroke-width="20"
-            class="progress"
-            :percent="percent"
-            status="active" />
-        <Button type="primary"
-            :id='"upload_"+_uid'
-            class="btn"
-            @click="onUpload">上传</button>
-        <Button :id='"upload_cancle"+_uid'
-            class="btn"
-            @click="onCancelUpload">取消上传</Button>
-
+            <!-- 操作 -->
+            <template slot="action"
+                slot-scope="props">
+                <Button type="primary"
+                    :id='"upload_"+_uid'
+                    class="btn"
+                    @click="onUpload(props.idx)">上传</button>
+                <Button :id='"upload_cancle"+_uid'
+                    class="btn"
+                    @click="onCancelUpload(props.idx)">取消上传</Button>
+            </template>
+        </Table>
     </div>
 </template>
 
@@ -49,28 +59,45 @@ export default {
             spinShow: false,
             file: null,
             uptoken: '',
-            fileType: {
-                image: ['png', 'jpeg', 'jpg', 'bmp', 'gif', 'ico'],
-                video: ['mp4', 'webm', 'ogg', 'mpeg4'],
-            },
-            currentFileClassification: '',
             uploadFiles: [],
+            fileIndex: 0,
             columns: [
                 {
-                    name: '文件名',
+                    title: '文件名',
                     key: 'fileName',
+                    width: 150,
                 },
                 {
-                    name: '大小',
+                    title: '大小',
                     key: 'fileSize',
+                    width: 100,
                 },
                 {
-                    name: '进度',
+                    title: '进度',
                     key: 'percent',
+                    render: (h, params) => {
+                        this.uploadFiles[params.index] = params.row
+                        return h(
+                            'div',
+                            this.$refs.myTable.$scopedSlots.percent({
+                                row: params.row,
+                                idx: params.row._index
+                            })
+                        )
+                    }
                 },
                 {
-                    name: '操作',
-                    key: 'operate',
+                    title: '操作',
+                    key: 'action',
+                    width: 200,
+                    render: (h, params) => {
+                        return h(
+                            'div',
+                            this.$refs.myTable.$scopedSlots.action({
+                                idx: params.row._index
+                            })
+                        )
+                    }
                 },
 
             ]
@@ -138,6 +165,13 @@ export default {
                     },
                     FilesAdded: function (up, files) {
                         resume = false;
+                        let obj = {
+                            fileName: files[0].name,
+                            type: files[0].type,
+                            fileSize: Math.round(files[0].size / 1024 / 1024 * 100) / 100 + ' MB',
+                            percent: 0
+                        }
+                        _this.uploadFiles.push(obj)
                         console.log('FilesAdded', up, files)
                     },
                     FileUploaded: function (up, file, info) {
@@ -254,6 +288,7 @@ export default {
                 var id = file.id;
                 // 更新进度条进度信息;
                 _this.percent = file.percent
+                _this.uploadFiles[_this.fileIndex].percent = file.percent
                 var fileUploaded = file.loaded || 0;
                 var count = Math.ceil(file.size / uploader.getOption("chunk_size"));
                 if (file.size > chunk_size) {
@@ -272,7 +307,6 @@ export default {
             this.uploader = uploader;
         },
         updateChunkProgress(file, board, chunk_size, count) {
-
             var index = Math.ceil(file.loaded / chunk_size);
             var leftSize = file.loaded - chunk_size * (index - 1);
             if (index == count) {
@@ -281,6 +315,9 @@ export default {
         },
         uploadFinish(res, name) {
             console.log('uploadFinish', res, name)
+            this.uploadFiles[this.fileIndex].url=`http://${qiniuconfig.qiniuDomain}/${name}`
+            console.log('uploadFiles',this.uploadFiles)
+
             localStorage.removeItem(name)
         },
         initFileInfo(file) {
@@ -367,7 +404,8 @@ export default {
             return new Date().getTime() > expireAt;
         },
 
-        onUpload() {
+        onUpload(idx) {
+            this.fileIndex = idx
             this.uploader.start();
         },
         onCancelUpload() {
@@ -387,7 +425,6 @@ export default {
         margin: 0 5px;
     }
     .progress {
-        width: 500px;
     }
 }
 </style>
