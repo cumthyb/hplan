@@ -34,9 +34,12 @@ export default {
     },
     data: function () {
         return {
+            token: '',
             uploader: null,
             percent: 0,
             chunk_size: 4 * 1024 * 1024,
+            blockSize: 0,
+            key: '',
             spinShow: false,
             file: null,
             uptoken: '',
@@ -104,12 +107,13 @@ export default {
 
         initQiniu(token, putExtra, config, domain, uploadUrl) {
             let _this = this;
+            this.putExtra = putExtra
+            this.token = token
             var uploadUrl = uploadUrl
             var board = {};
             var indexCount = 0;
             var resume = false;
             var chunk_size;
-            var blockSize;
             var uploader = new plupload.Uploader({
                 runtimes: "html5,flash,silverlight,html4",
                 url: uploadUrl,
@@ -127,6 +131,7 @@ export default {
                         console.log("upload init");
                     },
                     FilesAdded: function (up, files) {
+                        resume = false;
                         console.log('FilesAdded', up, files)
                     },
                     FileUploaded: function (up, file, info) {
@@ -146,8 +151,8 @@ export default {
                 console.log(1234)
             })
             uploader.bind("BeforeUpload", function (uploader, file) {
-                let key = file.name;
-                putExtra.params["x:name"] = key.split(".")[0];
+                _this.key = file.name;
+                putExtra.params["x:name"] = _this.key.split(".")[0];
                 var id = file.id;
                 chunk_size = uploader.getOption("chunk_size");
                 _this.chunk_size = uploader.getOption("chunk_size");
@@ -160,7 +165,7 @@ export default {
                         var k = customVarList[i];
                         multipart_params_obj[k[0]] = k[1];
                     }
-                    multipart_params_obj.key = key;
+                    multipart_params_obj.key = _this.key;
                     uploader.setOption({
                         url: uploadUrl,
                         multipart: true,
@@ -169,21 +174,21 @@ export default {
                 };
 
                 var resumeUpload = function () {
-                    let blockSize = chunk_size;
+                    _this.blockSize = chunk_size
                     _this.initFileInfo(file);
-                    if (blockSize === 0) {
+                    if (_this.blockSize === 0) {
                         _this.mkFileRequest(file)
                         uploader.stop()
                         return
                     }
-                    let resume = true;
+                    resume = true;
                     var multipart_params_obj = {};
                     // 计算已上传的chunk数量
                     var index = Math.floor(file.loaded / chunk_size);
 
                     var headers = qiniu.getHeadersForChunkUpload(token)
                     uploader.setOption({
-                        url: uploadUrl + "/mkblk/" + blockSize,
+                        url: uploadUrl + "/mkblk/" + _this.blockSize,
                         multipart: false,
                         required_features: "chunks",
                         headers: {
@@ -293,7 +298,7 @@ export default {
                 file.loaded = localFileInfo[length - 1].offset;
                 var leftSize = file.size - file.loaded;
                 if (leftSize < this.chunk_size) {
-                    blockSize = leftSize
+                    this.blockSize = leftSize
                 }
                 file.percent = localFileInfo[length - 1].percent;
                 return
@@ -304,11 +309,12 @@ export default {
         mkFileRequest(file) {
             // 调用sdk的url构建函数
             var requestUrl = qiniu.createMkFileUrl(
-                uploadUrl,
+                qiniuconfig.qiniuZone,
                 file.size,
-                key,
-                putExtra
+                this.key,
+                this.putExtra
             );
+            let _this=this
             var ctx = []
             var id = file.id
             var local = JSON.parse(localStorage.getItem(file.name))
@@ -316,13 +322,10 @@ export default {
                 ctx.push(local[i].ctx)
             }
             // 设置上传的header信息
-            var headers = qiniu.getHeadersForMkFile(token)
-
-
+            var headers = qiniu.getHeadersForMkFile(this.token)
             var xhr = new XMLHttpRequest();
             xhr.timeout = 600000;
-            xhr.setHeader("Content-Type", headers['content-type'])
-            xhr.setHeader("Authorization", headers['Authorization']);
+
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     var res = xhr.response;
@@ -337,18 +340,20 @@ export default {
                         // that.uploadFiles.push(file);
                         // that.$emit('input', that.uploadFiles)
                         // that.$emit('upload-success', that.currentFileClassification, fileUrl)
-                        this.uploadFinish(res, file.name, board[id]);
+                        _this.uploadFinish(res, file.name);
                     } else {
-                        that.$Notice.error({
+                        _this.$Notice.error({
                             title: '上传失败请稍后重试'
                         });
                     }
-                    that.spinShow = false
+                    _this.spinShow = false
                 }
             };
             xhr.open('POST', requestUrl, true);
+            xhr.setRequestHeader("Content-Type", headers['content-type'])
+            xhr.setRequestHeader("Authorization", headers['Authorization']);
             xhr.responseType = 'json';
-            xhr.send(form);
+            xhr.send(ctx.join(","));
         },
 
         isExpired(time) {
@@ -365,25 +370,6 @@ export default {
 
         delete_img(item) {
             this.uploadFiles.splice(item, 1);
-        },
-        add_img(event) {
-            var reader = new FileReader();
-            var file0 = event.target.files[0];
-            reader.readAsDataURL(file0);
-            reader.onloadend = () => {
-                this.spinShow = true
-                this.$http
-                    .get('upload-token', '').then(r => {
-                        this.uptoken = r.uptoken
-                        this.getUpFileUrl(file0)
-                    }).catch(error => {
-                        this.spinShow = false
-                        this.$Notice.error({
-                            title: '上传凭证请求失败'
-                        })
-                    })
-            }
-
         },
     },
 }

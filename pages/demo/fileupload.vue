@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import FileUpload from '@components/UploadImgBase64.vue'
+import FileUpload from '@components/UploadImgCloud.vue'
 export default {
     components: {
         FileUpload
