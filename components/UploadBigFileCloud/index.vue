@@ -1,18 +1,24 @@
 <template>
-    <div class='finish_room'>
-        <div class='finish_room2'>
-            <Button type="primary"
-                :id='"load_"+_uid'>加载</Button>
-            <Progress :stroke-width="30"
-                :percent="percent"
-                status="active" />
-            <Button type="primary"
-                :id='"upload_"+_uid'
-                @click="onUpload">上传</button>
-            <Button :id='"upload_cancle"+_uid'
-                @click="onCancelUpload">取消上传</Button>
 
-        </div>
+    <div class='file-upload-plupload'>
+        <Button type="primary"
+            :id='"load_"+_uid'
+            class="btn">加载</Button>
+
+
+            
+        <Progress :stroke-width="20"
+            class="progress"
+            :percent="percent"
+            status="active" />
+        <Button type="primary"
+            :id='"upload_"+_uid'
+            class="btn"
+            @click="onUpload">上传</button>
+        <Button :id='"upload_cancle"+_uid'
+            class="btn"
+            @click="onCancelUpload">取消上传</Button>
+
     </div>
 </template>
 
@@ -247,7 +253,7 @@ export default {
                 console.log('UploadProgress', uploader, file)
                 var id = file.id;
                 // 更新进度条进度信息;
-                this.percent = file.percent
+                _this.percent = file.percent
                 var fileUploaded = file.loaded || 0;
                 var count = Math.ceil(file.size / uploader.getOption("chunk_size"));
                 if (file.size > chunk_size) {
@@ -273,8 +279,8 @@ export default {
                 chunk_size = file.size - chunk_size * (index - 1);
             }
         },
-        uploadFinish(res, name, board) {
-            console.log('uploadFinish', res, name, board)
+        uploadFinish(res, name) {
+            console.log('uploadFinish', res, name)
             localStorage.removeItem(name)
         },
         initFileInfo(file) {
@@ -314,7 +320,7 @@ export default {
                 this.key,
                 this.putExtra
             );
-            let _this=this
+            let _this = this
             var ctx = []
             var id = file.id
             var local = JSON.parse(localStorage.getItem(file.name))
@@ -376,75 +382,12 @@ export default {
 
 </script>
 <style  lang="less">
-.finish_room {
-    width: 430px;
-    height: auto;
-    .finish_room2 {
-        width: 100%;
-        height: auto;
-        padding-top: 15px;
-        padding-bottom: 15px;
-        display: flex;
-        align-items: center;
-        // border-bottom: 2px solid #e1e1e1;
-        .room_img {
-            width: 150px;
-            height: 100px;
-            margin-right: 10px;
-            border: 1px solid #e1e1e1;
-            position: relative;
-            overflow: hidden;
-            img {
-                width: 100%;
-                height: 100%;
-            }
-            .file-name {
-                position: absolute;
-                display: inline-block;
-                max-width: 110px;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                left: 50%;
-                top: 50%;
-                transform: translate(-50%, -50%);
-            }
-            .delete-btn {
-                position: absolute;
-                width: auto;
-                height: auto;
-                right: 5px;
-                bottom: 3px;
-            }
-        }
+.file-upload-plupload {
+    .btn {
+        margin: 0 5px;
     }
-    .room_add_img {
-        width: 148px;
-        height: 98px;
-        border: 1px solid #e1e1e1;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: space-between;
-        position: relative;
-        span:nth-child(1) {
-            margin-top: 20px;
-            width: 40px;
-            height: 40px;
-            overflow: hidden;
-        }
-        span:nth-child(2) {
-            margin-bottom: 10px;
-        }
-        input {
-            position: absolute;
-            top: 0px;
-            left: 0px;
-            width: 100%;
-            height: 100%;
-            z-index: 99999;
-            opacity: 0;
-        }
+    .progress {
+        width: 500px;
     }
 }
 </style>
