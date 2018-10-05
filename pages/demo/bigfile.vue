@@ -1,6 +1,6 @@
 <template>
     <div>
-        <upload></upload>
+        <upload @uploadFinish='onUploadFinish'></upload>
     </div>
 </template>
 
@@ -16,7 +16,9 @@ export default {
         }
     },
     methods: {
-
+        onUploadFinish(files){
+            console.log(files)
+        }
     },
 }
 </script>

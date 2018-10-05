@@ -1,13 +1,14 @@
 <template>
-
     <div class='file-upload-plupload'>
         <Button type="primary"
             :id='"load_"+_uid'
-            class="btn">加载</Button>
+            :disabled='load_disabled'
+            class="btn load">加载</Button>
 
         <Table ref="myTable"
             :columns="columns"
-            :data="uploadFiles">
+            :data="uploadFiles"
+            v-show='uploadFiles.length>0'>
             <!-- 进度 -->
             <template slot="percent"
                 slot-scope="props">
@@ -50,6 +51,7 @@ export default {
     },
     data: function () {
         return {
+            load_disabled: false,
             token: '',
             uploader: null,
             percent: 0,
@@ -65,7 +67,7 @@ export default {
                 {
                     title: '文件名',
                     key: 'fileName',
-                    width: 150,
+                    width: 200,
                 },
                 {
                     title: '大小',
@@ -109,7 +111,6 @@ export default {
         }
     },
     mounted() {
-        console.log(qiniu)
         this.getUptoken().then(({ token, putExtra, config, domain }) => {
             this.initQiniu(token, putExtra, config, domain, qiniuconfig.qiniuZone)
         })
@@ -172,14 +173,14 @@ export default {
                             percent: 0
                         }
                         _this.uploadFiles.push(obj)
-                        console.log('FilesAdded', up, files)
+                        // console.log('FilesAdded', up, files)
                     },
                     FileUploaded: function (up, file, info) {
-                        console.log('FileUploaded', up, file, info);
+                        // console.log('FileUploaded', up, file, info);
                     },
                     UploadComplete: function (up, files) {
                         // Called when all files are either uploaded or failed
-                        console.log("UploadComplete", up, files);
+                        // console.log("UploadComplete", up, files);
                     },
                     Error: function (up, err) {
                         console.log('Error', up, err);
@@ -187,8 +188,12 @@ export default {
                 }
             });
             uploader.init();
-            uploader.bind('Error', function () {
-                console.log(1234)
+            uploader.bind('Error', function (err) {
+                console.log(err)
+                _this.load_disabled = false
+            })
+            uploader.bind('FilesAdded', function (err) {
+                _this.load_disabled = true
             })
             uploader.bind("BeforeUpload", function (uploader, file) {
                 _this.key = file.name;
@@ -278,13 +283,14 @@ export default {
                     percent: file.percent
                 };
                 indexCount++;
+                debugger
                 localStorage.setItem(file.name, JSON.stringify(localFileInfo));
             });
 
             // 每个事件监听函数都会传入一些很有用的参数，
             // 我们可以利用这些参数提供的信息来做比如更新UI，提示上传进度等操作
             uploader.bind("UploadProgress", function (uploader, file) {
-                console.log('UploadProgress', uploader, file)
+                // console.log('UploadProgress', uploader, file)
                 var id = file.id;
                 // 更新进度条进度信息;
                 _this.percent = file.percent
@@ -297,13 +303,15 @@ export default {
             });
 
             uploader.bind("FileUploaded", function (uploader, file, info) {
-                var id = file.id;
+                var id = file.id; 
+                indexCount=0;
                 if (resume) {
                     _this.mkFileRequest(file)
                 } else {
                     _this.uploadFinish(JSON.parse(info.response), file.name, board[id]);
                 }
             });
+           
             this.uploader = uploader;
         },
         updateChunkProgress(file, board, chunk_size, count) {
@@ -314,11 +322,12 @@ export default {
             }
         },
         uploadFinish(res, name) {
-            console.log('uploadFinish', res, name)
-            this.uploadFiles[this.fileIndex].url=`http://${qiniuconfig.qiniuDomain}/${name}`
-            console.log('uploadFiles',this.uploadFiles)
-
+            // console.log('uploadFinish', res, name)
+            this.uploadFiles[this.fileIndex].url = `http://${qiniuconfig.qiniuDomain}/${name}`
+            // console.log('uploadFiles_url', this.uploadFiles)
+            this.$emit('uploadFinish',this.uploadFiles)
             localStorage.removeItem(name)
+            this.load_disabled = false
         },
         initFileInfo(file) {
             var localFileInfo = JSON.parse(localStorage.getItem(file.name)) || [];
@@ -361,6 +370,7 @@ export default {
             var ctx = []
             var id = file.id
             var local = JSON.parse(localStorage.getItem(file.name))
+            debugger
             for (var i = 0; i < local.length; i++) {
                 ctx.push(local[i].ctx)
             }
@@ -373,16 +383,6 @@ export default {
                 if (xhr.readyState === 4) {
                     var res = xhr.response;
                     if (xhr.status === 200) {
-
-                        // let fileUrl = `http://${config.qiniuDomain}/${fileResponse.key}`
-                        // let file = {
-                        //     fname: fileResponse.fname,
-                        //     mimeType: fileResponse.mimeType,
-                        //     url: fileUrl
-                        // }
-                        // that.uploadFiles.push(file);
-                        // that.$emit('input', that.uploadFiles)
-                        // that.$emit('upload-success', that.currentFileClassification, fileUrl)
                         _this.uploadFinish(res, file.name);
                     } else {
                         _this.$Notice.error({
@@ -408,8 +408,12 @@ export default {
             this.fileIndex = idx
             this.uploader.start();
         },
-        onCancelUpload() {
+        onCancelUpload(idx) {
             this.uploader.stop();
+            let fileName=this.uploadFiles[idx].fileName
+            this.uploadFiles.splice(idx, 1);
+            localStorage.removeItem(name)
+            this.load_disabled=false
         },
 
         delete_img(item) {
@@ -423,6 +427,9 @@ export default {
 .file-upload-plupload {
     .btn {
         margin: 0 5px;
+    }
+    .load {
+        margin: 5px 5px;
     }
     .progress {
     }
