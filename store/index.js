@@ -20,6 +20,8 @@ var mutations = {
   logout(state, data) {
     // 这里的 `state` 对象是模块的局部状态
     state.user = {}
+    Cookies.remove('name')
+    Cookies.remove('token')
   },
   changeCurrentView(state, data) {
     // 这里的 `state` 对象是模块的局部状态

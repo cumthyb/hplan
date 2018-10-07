@@ -6,7 +6,8 @@
                 v-if="spinShow"></Spin>
             <div v-for='(item ,index ) in uploadFiles'
                 class='room_img'>
-                <img v-if="item.mimeType.startsWith('image')" :src="item.url">
+                <img v-if="item.mimeType.startsWith('image')"
+                    :src="item.url">
                 <span v-else="item.mimeType.startsWith('image')"
                     class="file-name">{{item.name.substring(0,10) }}</span>
                 <span class="delete-btn"
@@ -15,11 +16,12 @@
             <div class='room_add_img'
                 v-if='multiple||uploadFiles.length!=1'>
                 <span><img src="../static/add.png"></span>
-                    <span>加载文件</span>
-                    <input @change='add_img' type="file">
-           </div>
+                <span>加载文件</span>
+                <input @change='add_img'
+                    type="file">
             </div>
         </div>
+    </div>
 
 </template>
 
@@ -100,14 +102,14 @@ export default {
                 if (xhrfile.readyState === 4) {
                     var fileResponse = xhrfile.response;
                     if (xhrfile.status === 200) {
-                       
+
                         let fileUrl = `http://${config.qiniuDomain}/${fileResponse.key}`
-                        let file={
-                            fname:fileResponse.fname,
+                        let file = {
+                            fname: fileResponse.fname,
                             mimeType: fileResponse.mimeType,
-                            url:fileUrl
+                            url: fileUrl
                         }
-                       
+
                         that.uploadFiles.push(file);
                         that.$emit('input', that.uploadFiles)
                         that.$emit('upload-success', that.currentFileClassification, fileUrl)
@@ -170,6 +172,7 @@ export default {
                 height: auto;
                 right: 5px;
                 bottom: 3px;
+                cursor: pointer;
             }
         }
     }
@@ -192,6 +195,7 @@ export default {
             margin-bottom: 10px;
         }
         input {
+            cursor: pointer;
             position: absolute;
             top: 0px;
             left: 0px;

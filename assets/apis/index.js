@@ -20,6 +20,11 @@ export default {
     url: '/api/uptoken',
     method: 'get'
   },
+  //获取所有会员
+  'member-findAll': {
+    url: '/api/member/findAll',
+    method: 'get'
+  },
   ////////////课程系类////////////////
   //新建课程系列
   'create-course-series': {
@@ -52,5 +57,12 @@ export default {
   'find-all-course': {
     url: '/api/course/findAll',
     method: 'get'
+  },
+
+  ////////////订单管理///////////////
+  //新建订单
+  'create-order': {
+    url: '/api/order/create',
+    method: 'post'
   }
 }

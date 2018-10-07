@@ -16,6 +16,10 @@
       <Icon type="ios-construct"></Icon>
       管理课程
       </MenuItem>
+      <MenuItem name="order">
+      <Icon type="ios-reorder" />
+      订单管理
+      </MenuItem>
       <MenuItem name="homework">
       <Icon type="ios-create"></Icon>
       批改作业
@@ -37,17 +41,19 @@ import createSeries from './createSeries.vue'
 import uploadCourse from './uploadCourse.vue'
 import manageCourse from './manageCourse.vue'
 import correctHomework from './correctHomework.vue'
+import createOrder from './createOrder.vue'
 export default {
   name: 'personalcenter-customer',
   components: {
     'create': createSeries,
     'upload': uploadCourse,
     'manage': manageCourse,
-    'homework': correctHomework
+    'homework': correctHomework,
+    'order': createOrder,
   },
   data() {
     return {
-      id:'',
+      id: '',
       currentMenuItem: 'create',
       username: '',
       view: 'create',
