@@ -24,13 +24,15 @@
     <div class='content'>
       <transition>
         <keep-alive include="create,upload,manage,homework">
-          <component :is="view"></component>
+          <component :is="view"
+            :id="eidtCourseId"></component>
         </keep-alive>
       </transition>
     </div>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex'
 import createSeries from './createSeries.vue'
 import uploadCourse from './uploadCourse.vue'
 import manageCourse from './manageCourse.vue'
@@ -45,6 +47,7 @@ export default {
   },
   data() {
     return {
+      id:'',
       currentMenuItem: 'create',
       username: '',
       view: 'create',
@@ -56,6 +59,24 @@ export default {
         password: ''
       }
     }
+  },
+  computed: {
+    // 使用对象展开运算符将 getter 混入 computed 对象中
+    ...mapGetters([
+      'currentView',
+      'eidtCourseId'
+    ])
+  },
+  watch: {
+    currentView(val) {
+      if (val) {
+        this.currentMenuItem = val
+        this.view = val
+      }
+    },
+    eidtCourseId(val) {
+      this.id = val
+    },
   },
   mounted() {
     this.username = this.$route.params.username
@@ -77,6 +98,7 @@ export default {
     },
     onMenuChange(name) {
       this.view = name
+      this.$store.commit('changeCurrentView', { view: name, id: '' })
     }
   }
 }
@@ -84,7 +106,7 @@ export default {
 <style lang='less'>
 .customer-info-center-panel {
     display: flex;
-    height:  ~"calc(100% - 130px)";
+    height: ~'calc(100% - 130px)';
     .menu {
         width: 240px;
     }

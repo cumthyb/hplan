@@ -17,6 +17,9 @@ export default {
     components: {
         SectionTitle
     },
+    props: {
+        id: ''
+    },
     data() {
         return {
             columns: [

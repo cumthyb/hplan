@@ -1,106 +1,122 @@
 <template>
     <div>
         <SectionTitle title="课程管理" />
-        <Table border
-            class='tasks-table'
-            :columns="columns1"
-            :data="data1"></Table>
+        <div class="course-manage-panel">
+            <Table border
+                class='course-table'
+                :columns="columns"
+                :data="cousesDatas"></Table>
+        </div>
+
     </div>
 </template>
 
 <script>
+import dateUtils from 'vue-dateutils';
 import SectionTitle from '@components/SectionTitle.vue'
 
 export default {
     components: {
         SectionTitle
     },
+    props: {
+        id: ''
+    },
     data() {
         return {
-            columns1: [
+            columns: [
                 {
                     title: '课程名称',
-                    key: 'name1',
+                    key: 'title',
                     align: 'center'
                 },
                 {
                     title: '所属系列',
-                    key: 'name2',
+                    key: 'series',
                     align: 'center',
-                    className: 'score',
                     render: (h, params) => {
-                        let str = params.row.name2
-                        return h('p', { style: { color: str == '合格' ? 'black' : 'red' } }, str)
+                        return h('p', params.row.series.title)
                     }
                 },
                 {
                     title: '上传时间',
-                    key: 'name3',
+                    key: 'ctime',
                     align: 'center',
+                    width: 160,
                     render: (h, params) => {
-                        let color = ''
-                        let text = ''
-                        if (params.row.name3 == '已批改') {
-                            color = '#3F4EFC'
-                            text = '已批改'
-                        }
-                        else {
-                            color = '#c3e5a0',
-                                text = '未批改'
-                        }
-
-                        return h(
-                            'p',
-                            {
-                                style: {
-                                    color: color,
-                                    cursor: 'pointer'
-                                },
-                                on: {
-                                    click: () => {
-                                        this.jump2TaskDetail({
-                                            id: params.row.id
-                                        })
-                                    }
-                                }
-                            },
-                            text
-                        )
+                        return h('p', dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.ctime)))
                     }
                 },
                 {
                     title: '操作',
                     key: 'name4',
-                    align: 'center'
+                    align: 'center',
+                    width: 160,
+                    className: 'col col-operation',
+                    render: (h, params) => {
+
+                        return h('div', [
+                            h('span', {
+                                'class': 'btn edit',
+                                on: {
+                                    click: this.jumpCourseEdit.bind(this, params.row._id)
+                                }
+                            }, '编辑'),
+                            // h('span', {
+                            //     'class': 'btn delete'
+                            // }, '删除'),
+                            h('span', {
+                                'class': 'btn manage-member',
+                                on: {
+                                    click: this.jumpManageMember.bind(this, params.row._id)
+                                }
+                            }, '学员管理'),
+                        ])
+                    }
                 }
             ],
-            data1: [
-                {
-                    name1: '财经',
-                    name2: '体育',
-                    name3: '未批该',
-                    name4: '1'
-                },
-                {
-                    name1: '体育',
-                    name2: '财经',
-                    name3: '已批改',
-                    name4: '2'
-                },
-                {
-                    name1: '民生',
-                    name2: '民生',
-                    name3: '已批改',
-                    name4: '3'
-                }
-            ]
+            cousesDatas: []
         }
     },
+    mounted() {
+        this.getAllCourse();
+    },
     methods: {
-
+        getAllCourse() {
+            this.$http.get('find-all-course', '').then(r => {
+                this.cousesDatas = r.data;
+            }).catch(e => {
+                this.$Message.error(e.message);
+            })
+        },
+        jumpCourseEdit(id) {
+            console.log(id)
+            this.$store.commit('changeCurrentView', { view: 'upload', id: id })
+        },
+        jumpManageMember(id) {
+            // console.log(id)
+            // this.$store.commit('changeCurrentView', { view: 'upload', id: id })
+        }
     },
 }
 </script>
 
 <style lang="less">
+.course-manage-panel {
+    margin-top: 20px;
+    padding: 20px;
+    .course-table {
+        .col-operation {
+            .ivu-table-cell {
+                padding-left: 5px;
+                padding-right: 5px;
+                .btn {
+                    margin: 0 5px;
+                    cursor: pointer;
+                    color: rgb(63, 78, 252);
+                }
+            }
+        }
+    }
+}
 </style>

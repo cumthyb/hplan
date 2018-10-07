@@ -35,9 +35,22 @@ export default {
 
   ////////////上传课程///////////////
 
-    //上传课程
+  //上传课程
   'create-course': {
     url: '/api/course/create',
     method: 'post'
   },
+
+  //获取所有课程系列
+  'find-course': {
+    url: '/api/course/find',
+    method: 'get'
+  },
+
+  ////////////课程管理///////////////
+  //获取所有课程系列
+  'find-all-course': {
+    url: '/api/course/findAll',
+    method: 'get'
+  }
 }

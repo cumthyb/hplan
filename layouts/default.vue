@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <my-header /> -->
+        <my-header />
         <nuxt class="content-container" />
         <my-footer />
     </div>

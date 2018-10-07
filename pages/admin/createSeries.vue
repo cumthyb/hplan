@@ -7,7 +7,7 @@
             :model="formItem"
             :rules="ruleValidate"
             label-position='right'
-            :label-width="150">
+            :label-width="100">
             <FormItem label="系列课名称"
                 prop="title">
                 <Input v-model="formItem.title"
@@ -38,6 +38,9 @@ import SectionTitle from '@components/SectionTitle.vue'
 export default {
     components: {
         SectionTitle
+    },
+    props: {
+        id: ''
     },
     data() {
         return {
@@ -99,6 +102,8 @@ export default {
 <style lang="less">
 .new-course-panel {
     .series-course-form {
+        margin-top: 20px;
+        margin-right: 40px;
     }
 }
 </style>
