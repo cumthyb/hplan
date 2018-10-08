@@ -64,5 +64,10 @@ export default {
   'create-order': {
     url: '/api/order/create',
     method: 'post'
+  },
+  //新建订单
+  'find-all-order': {
+    url: '/api/order/findAll',
+    method: 'get'
   }
 }

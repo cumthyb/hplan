@@ -3,6 +3,8 @@
   <div class='customer-info-center-panel'>
     <Menu :active-name="currentMenuItem"
       class='menu'
+      mode="vertical"
+      width='160px'
       @on-select='onMenuChange'>
       <MenuItem name="create">
       <Icon type="md-add-circle"></Icon>
@@ -91,6 +93,7 @@ export default {
   },
   methods: {
     viewPersonalInfo(username) {
+      debugger
       this.$http
         .post('member-info', { username: username })
         .then(r => {

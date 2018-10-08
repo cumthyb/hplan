@@ -1,10 +1,13 @@
 <template>
     <div>
         <SectionTitle title="批改作业" />
-        <Table border
-            class='tasks-table'
-            :columns="columns"
-            :data="dataTable"></Table>
+        <div class="papers-panel">
+            <Table border
+                class='tasks-table'
+                :columns="columns"
+                :data="dataTable"></Table>
+        </div>
+
     </div>
 </template>
 
@@ -87,4 +90,8 @@ export default {
 </script>
 
 <style lang="less">
+.papers-panel {
+    margin-top: 20px;
+    padding: 20px;
+}
 </style>
