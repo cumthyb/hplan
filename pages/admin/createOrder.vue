@@ -41,7 +41,6 @@
               prop="course"
               label-position="top">
               <Select v-model="formData.course"
-                multiple
                 style="width:600px">
                 <Option v-for="item in courseArr"
                   :value="item._id"
@@ -213,18 +212,22 @@ export default {
       ],
       ruleValidate: {
         member: [
-          { required: true, message: '请选择会员', trigger: 'change' }
+          { required: true, type: 'array', message: '请选择会员', trigger: 'change' }
         ],
         course: [
-          { required: true, message: '请选择课程', trigger: 'change' }
-        ], amount: [
-          { required: true, message: '请填写支付金额', trigger: 'change' }
-        ], paychannel: [
-          { required: true, message: '请选择付款渠道', trigger: 'change' }
-        ], paytime: [
-          { required: true, message: '请选择支付时间', trigger: 'change' }
-        ], validityPeriod: [
-          { required: true, message: '请选择订单有效期', trigger: 'change' }
+          { required: true, type: 'string', message: '请选择课程', trigger: 'change' }
+        ],
+        amount: [
+          { required: true, type: 'number', message: '请填写支付金额', trigger: 'change' }
+        ],
+        paychannel: [
+          { required: true, type: 'string', message: '请选择付款渠道', trigger: 'change' }
+        ],
+        paytime: [
+          { required: true, type:'date', message: '请选择支付时间', trigger: 'change' }
+        ],
+        validityPeriod: [
+          { required: true, type: 'array', message: '请选择订单有效期', trigger: 'change' }
         ],
       }
     }

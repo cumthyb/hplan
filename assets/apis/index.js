@@ -52,6 +52,12 @@ export default {
     method: 'get'
   },
 
+  //获取所有课程系列
+  'find-course-seriesid': {
+    url: '/api/course/findBySeries',
+    method: 'get'
+  },
+
   ////////////课程管理///////////////
   //获取所有课程系列
   'find-all-course': {

@@ -93,7 +93,6 @@ export default {
   },
   methods: {
     viewPersonalInfo(username) {
-      debugger
       this.$http
         .post('member-info', { username: username })
         .then(r => {
