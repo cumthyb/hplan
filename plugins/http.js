@@ -43,6 +43,7 @@ axios.interceptors.request.use(
 // http response 拦截器
 axios.interceptors.response.use(
   response => {
+
     //这个判断是关键，如果返回登陆页面内容了，就刷新当前页面，经后端处理就会跳转到登陆页面了
     if (response.status === 301) {
       window.location.replace("/login");
@@ -50,6 +51,7 @@ axios.interceptors.response.use(
     return response;
   },
   error => {
+
     return Promise.reject(error.response); // 返回接口返回的错误信息
   }
 );

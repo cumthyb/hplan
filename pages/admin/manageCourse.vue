@@ -31,7 +31,7 @@ export default {
                     align: 'center'
                 },
                 {
-                    title: '所属系列',
+                    title: '所属专题',
                     key: 'series',
                     align: 'center',
                     render: (h, params) => {
