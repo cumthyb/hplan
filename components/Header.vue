@@ -14,31 +14,27 @@
     </div>
     <div class='right'>
       <span v-if='loginState'
-        class='user'>欢迎用户{{user.alias}}</span>
+        class='user'>欢迎用户&nbsp;{{user.alias}}</span>
       <span v-if='!loginState'
         class='user canclick'
         @click="onLogin">登陆</span>
       <span v-if='!loginState'
         class='user canclick'
         @click="onRegister">注册</span>
-      <Menu mode="horizontal"
-        active-name="3"
-        class='user user-menu'
+
+      <Dropdown class='user user-menu'
         v-if='loginState'>
-        <Submenu name="3">
-          <template slot="title">
-            <Avatar src="https://www.easyicon.net/api/resizeApi.php?id=1167486&size=24" />
-          </template>
-          <MenuItem name="3-1">
-          <nuxt-link :to="{name:'member-psnInfo',params:{ 'name': user.name }}">个人中心</nuxt-link>
-          </MenuItem>
-          <MenuItem name="3-2">
-          <span @click="onLogout">退出</span>
-          </MenuItem>
-
-        </Submenu>
-
-      </Menu>
+        <a href="javascript:void(0)">
+          <Avatar src="https://www.easyicon.net/api/resizeApi.php?id=1167486&size=24" />
+          <!-- <Icon type="ios-arrow-down"></Icon> -->
+        </a>
+        <DropdownMenu slot="list">
+          <DropdownItem>
+            <nuxt-link :to="{name:'member-psnInfo',params:{ 'name': user.name }}">个人中心</nuxt-link>
+          </DropdownItem>
+          <DropdownItem> <span @click="onLogout">退出</span></DropdownItem>
+        </DropdownMenu>
+      </Dropdown>
     </div>
     <Modal v-model="modalRegister"
       width='350'
@@ -79,7 +75,7 @@ export default {
       modalRegister: false,
     }
   },
-  mounted(){
+  mounted() {
     // let img=new Image(AvatarPic)
   },
   methods: {
@@ -92,7 +88,7 @@ export default {
     onLoginSuccess(data) {
       this.loginState = true
       this.modalLogin = false
-      this.user =Object.assign({},data)
+      this.user = Object.assign({}, data)
     },
     onLoginFail() {
       this.modalLogin = false
