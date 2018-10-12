@@ -75,5 +75,16 @@ export default {
   'find-all-order': {
     url: '/api/order/findAll',
     method: 'get'
+  },
+  ////////////任务管理///////////////
+  //新建订单
+  'create-task': {
+    url: '/api/task/create',
+    method: 'post'
+  },
+  //新建订单
+  'find-all-task': {
+    url: '/api/task/findAll',
+    method: 'get'
   }
 }
