@@ -12,6 +12,29 @@
           height="34">
       </div>
     </div>
+    <nav class="middle">
+      <Menu mode="horizontal"
+        active-name="1">
+        <MenuItem name="1"
+          :to="{name:'home',params:{ 'username': 222}}">
+        首页
+        </MenuItem>
+        <MenuItem name="2"
+          :to="{name:'member',params:{ 'username': 222}}">
+        所有课程
+        </MenuItem>
+        <MenuItem name="3"
+          v-if='loginState'
+          :to="{name:'member-course',params:{ 'username': 222}}">
+        我的课程
+        </MenuItem>
+        <MenuItem name="4"
+          v-if='loginState'
+          :to="{name:'member-task',params:{ 'username': 222}}">
+        我的作业
+        </MenuItem>
+      </Menu>
+    </nav>
     <div class='right'>
       <span v-if='loginState'
         class='user'>欢迎用户&nbsp;{{user.alias}}</span>
@@ -135,6 +158,14 @@ export default {
         }
         .h-slogan {
             width: 160px;
+        }
+    }
+    .middle {
+        display: inline-block;
+        padding-left: 50px;
+        .ivu-menu-item {
+            width: 150px;
+            text-align: center
         }
     }
     .right {

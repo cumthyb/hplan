@@ -6,21 +6,21 @@
                     class="split-pane">
                     <div>
                         <div v-for='(item,index) in courses'
-                            :key='index'
+                            :key='item._id'
                             class="course"
                             :class="{ active: index==currentCourseIndex }"
-                            @click="onSelectCourse(index)">{{'课程'+(index+1)+':'+item.name}}</div>
+                            @click="onSelectCourse(index)">{{'课程'+(index+1)+':'+item.title}}</div>
                     </div>
                 </div>
                 <div slot="right"
                     class="split-pane course-detail">
                     <div class="name">
-                        <h1> {{currentCourse.name}}</h1>
-
+                        <h1> {{currentCourse.title}}</h1>
                     </div>
                     <div class="desc">{{currentCourse.desc}}</div>
                     <div class="video">
-                        <VedioPlayer :src='currentCourse.url' />
+                        <VedioPlayer v-if='currentCourse.videourl'
+                            :src='currentCourse.videourl[0]' />
                     </div>
                 </div>
             </Split>
@@ -30,6 +30,7 @@
 
 <script>
 import Mock from 'mockjs'
+import { mapState } from 'vuex'
 import VedioPlayer from '@components/VideoPlayer.vue'
 export default {
     components: {
@@ -43,23 +44,29 @@ export default {
             currentCourseIndex: -1,
         }
     },
+    computed: {
+        ...mapState([
+            'user'
+        ])
+    },
     mounted() {
-        let arr = Mock.mock({
-            "courses|5-15": [
-                {
-                    'name': () => Mock.Random.csentence(10, 20),
-                    'desc': () => Mock.Random.cparagraph(10, 20),
-                    'url': 'http://pe3q7604z.bkt.clouddn.com/Vue.js.mp4'
-                }
-            ]
-        })
-        this.courses = arr.courses
-        this.currentCourse = this.courses[0]
+        this.getMyCourses()
     },
     methods: {
         onSelectCourse(index) {
             this.currentCourseIndex = index;
             this.currentCourse = this.courses[index]
+        },
+        getMyCourses() {
+            this.$http.post('post-my-course', '').then(r => {
+                console.log(r.data)
+                this.courses = r.data
+                this.onSelectCourse(0)
+            }).catch(e => {
+                this.$Notice.error({
+                    title: e.message
+                })
+            })
         }
     },
 }

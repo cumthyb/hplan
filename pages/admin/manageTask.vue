@@ -53,7 +53,7 @@
         <Button style="margin-right: 8px"
           @click="addTaskDrawer = false">Cancel</Button>
         <Button type="primary"
-        :disabled='createDisable'
+          :disabled='createDisable'
           @click="createTask">Submit</Button>
       </div>
     </Drawer>
@@ -74,7 +74,7 @@ export default {
   },
   data() {
     return {
-      createDisable:false,
+      createDisable: false,
       addTaskDrawer: false,
       styles: {
         height: 'calc(100% - 55px)',
@@ -101,6 +101,30 @@ export default {
       },
       courseList: [],
       columns: [
+        {
+          title: '所属课程',
+          key: 'course',
+          align: 'center',
+          render:(h,params)=>{
+            debugger
+            return h('span',params.row.course.title)
+          }
+        },
+        {
+          title: '任务名',
+          key: 'title',
+          align: 'center'
+        },
+        {
+          title: '发布时间',
+          key: 'utime',
+          align: 'center',
+          render: (h, params) => {
+            return h('span',dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.utime))) 
+          }
+        }
+      ],
+      columns2: [
         {
           title: '学员昵称',
           key: 'aliasName',
@@ -150,7 +174,8 @@ export default {
     }
   },
   mounted() {
-    this.mockdata()
+    // this.mockdata()
+    this.getTasks()
   },
   methods: {
     mockdata() {
@@ -178,16 +203,22 @@ export default {
       })
     },
     createTask() {
-      this.createDisable=true
+      this.createDisable = true
       this.$http.post('create-task', this.formData).then(r => {
         this.$Message.success('操作成功');
-        this.createDisable=false
+        this.createDisable = false
       }).catch(e => {
         this.$Message.error(e.message);
-        this.createDisable=false
+        this.createDisable = false
+      })
+    },
+    getTasks() {
+      this.$http.get('find-all-task', '').then(r => {
+        this.dataTable = r.data;
+      }).catch(e => {
+        this.$Message.error(e.message);
       })
     }
-
   },
 }
 </script>

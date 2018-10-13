@@ -152,7 +152,7 @@ export default {
     },
     watch: {
         id(val) {
-            this.eidtCourseId = val
+            this.$store.commit('changeCourseId',val)
             if (val) {
                 this.getCourseDetail(val).then(data => {
                     this.initCourse(data)

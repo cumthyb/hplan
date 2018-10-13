@@ -22,14 +22,20 @@
       <Icon type="ios-reorder" />
       订单管理
       </MenuItem>
-      <MenuItem name="task">
-      <Icon type="ios-create"></Icon>
-      作业管理
-      </MenuItem>
+
+      <Submenu name="4">
+        <template slot="title">
+          <Icon type="ios-create"></Icon>
+          作业管理
+        </template>
+        <MenuItem name="task">布置作业</MenuItem>
+        <MenuItem name="homework">批改作业</MenuItem>
+      </Submenu>
+
     </Menu>
     <div class='content'>
       <transition>
-        <keep-alive include="create,upload,manage,homework">
+        <keep-alive include="create,upload,manage,task,homework">
           <component :is="view"
             :id="eidtCourseId"></component>
         </keep-alive>
@@ -44,6 +50,7 @@ import uploadCourse from './uploadCourse.vue'
 import manageCourse from './manageCourse.vue'
 import createOrder from './createOrder.vue'
 import manageTask from './manageTask.vue'
+import correctHomework from './correctHomework.vue'
 export default {
   name: 'personalcenter-customer',
   components: {
@@ -52,6 +59,7 @@ export default {
     'manage': manageCourse,
     'order': createOrder,
     'task': manageTask,
+    'homework': correctHomework
   },
   data() {
     return {

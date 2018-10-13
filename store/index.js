@@ -16,7 +16,7 @@ var mutations = {
     Cookies.set('name', data.name, { expires: 7 })
     Cookies.set('token', data.token, { expires: 1.0 / 24.0 })
     state.user = Object.assign({}, state.user, data)
-    console.log('login',data)
+    console.log('login', data)
   },
   logout(state, data) {
     // 这里的 `state` 对象是模块的局部状态
@@ -28,6 +28,9 @@ var mutations = {
     // 这里的 `state` 对象是模块的局部状态
     state.currentView = data.view
     state.eidtCourseId = data.id
+  },
+  changeCourseId(state, data) {
+    state.eidtCourseId=data
   }
 }
 

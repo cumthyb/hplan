@@ -1,10 +1,12 @@
 <template>
     <div class="course-panel">
         <div class="command-panel">
-            <span class="btn">
+            <span class="btn"
+                v-if='!showMask'>
                 <nuxt-link :to="{name:'member-course',params:{ 'username': 222}}">我的课程</nuxt-link>
             </span>
-            <span class="btn">
+            <span class="btn"
+                v-if='!showMask'>
                 <nuxt-link :to="{name:'member-task',params:{ 'username': 222}}">我的作业</nuxt-link>
             </span>
         </div>
@@ -122,7 +124,7 @@ export default {
         initSeriesSplit() {
             this.getAllSeries().then(data => {
                 this.courseSeries = data
-            }).then(()=>{
+            }).then(() => {
                 this.onSelectCourseSeries(this.courseSeries[0].value)
             })
         },
