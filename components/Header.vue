@@ -25,7 +25,7 @@
         </MenuItem>
         <MenuItem name="3"
           v-if='loginState'
-          :to="{name:'member-course',params:{ 'username': 222}}">
+          :to="{name:'member-courselist',params:{ 'username': 222}}">
         我的课程
         </MenuItem>
         <MenuItem name="4"

@@ -90,5 +90,9 @@ export default {
   'find-all-task': {
     url: '/api/task/findAll',
     method: 'get'
+  },
+  'find-task-ByCourse': {
+    url: '/api/task/findByCourse',
+    method: 'get'
   }
 }

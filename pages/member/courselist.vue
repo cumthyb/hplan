@@ -15,7 +15,7 @@
                 <div slot="right"
                     class="split-pane course-detail">
                     <div class="cmd">
-                        <Button @click="onDoTask">写作业</Button>
+                        <Button @click="onDoTask(currentCourse)">写作业</Button>
                     </div>
                     <div class="name">
                         <h1> {{currentCourse.title}}</h1>
@@ -34,7 +34,7 @@
             :mask-closable="false"
             class="task-right-drawer"
             :styles="styles">
-            <div class="demo-drawer-footer">
+            <div class="dotask-drawer-cmd">
                 <Button style="margin-right: 8px"
                     :disabled='quitDisable'
                     @click="drawerShow = false">离开草稿</Button>
@@ -45,6 +45,10 @@
                     :disabled='submitDisable'
                     @click="onSubmitTask">提交作业</Button>
             </div>
+            <div class="dotask-drawer-task">
+                <div class="task-title">{{currentTask.title}}</div>
+                <div class="task-content">{{currentTask.desc}}</div>
+            </div >
             <QuillEditor v-show='taskContentEdit'
                 :value="taskContent"
                 @editor-blur='onEditorBlur' />
@@ -72,6 +76,7 @@ export default {
             currentCourse: {},
             currentCourseIndex: -1,
             drawerShow: false,
+            currentTask:{},
             taskContent: '',
             styles: {
                 height: 'calc(100% - 55px)',
@@ -116,15 +121,18 @@ export default {
         },
         onDoTask(memberId, taskId) {
             this.drawerShow = true
-            let taskContent = this.getTaskContent(memberId, taskId);
+            this.getTask(this.currentCourse._id);
         },
         //获取已提交的作业内容
-        getTaskContent(memberId, taskId) {
-            let content = 'shjkdllsjkjljkljlldk';
-
-
-
-            return content;
+        getTask(courseId) {
+           this.$http.get('find-task-ByCourse',{course:courseId}).then(r=>{
+               console.log(r.data)
+               this.currentTask=r.data[0]
+           }).catch(e=>{
+               this.$Notice.error({
+                    title: e.message
+                })
+           })
         },
 
         onEditorBlur(content) {
@@ -186,9 +194,17 @@ export default {
     }
 }
 .task-right-drawer {
-    .demo-drawer-footer {
+    .dotask-drawer-cmd {
         width: 95%;
         margin: 0 auto;
+    }
+    .dotask-drawer-task{
+        .task-title{
+
+        }
+        .task-content{
+
+        }
     }
     .quill-editor-container {
         padding-top: 10px;

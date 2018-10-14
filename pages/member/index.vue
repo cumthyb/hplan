@@ -3,7 +3,7 @@
         <div class="command-panel">
             <span class="btn"
                 v-if='!showMask'>
-                <nuxt-link :to="{name:'member-course',params:{ 'username': 222}}">我的课程</nuxt-link>
+                <nuxt-link :to="{name:'member-courselist',params:{ 'username': 222}}">我的课程</nuxt-link>
             </span>
             <span class="btn"
                 v-if='!showMask'>

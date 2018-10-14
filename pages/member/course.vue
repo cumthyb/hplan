@@ -14,6 +14,9 @@
                 </div>
                 <div slot="right"
                     class="split-pane course-detail">
+                    <div class="cmd">
+                        <Button @click="onDoTask">写作业</Button>
+                    </div>
                     <div class="name">
                         <h1> {{currentCourse.title}}</h1>
                     </div>
@@ -25,6 +28,7 @@
                 </div>
             </Split>
         </div>
+        
     </div>
 </template>
 
@@ -67,6 +71,9 @@ export default {
                     title: e.message
                 })
             })
+        },
+        onDoTask(){
+
         }
     },
 }
