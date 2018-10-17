@@ -110,7 +110,7 @@ export default {
                 this.onSelectCourse(0)
             }).catch(e => {
                 this.$Notice.error({
-                    title: e.message
+                    desc: e.message
                 })
             })
         },

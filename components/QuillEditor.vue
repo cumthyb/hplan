@@ -1,16 +1,16 @@
 <template>
   <section class="quill-editor-container">
-    <div class="quill-editor"
+    <div
+      class="quill-editor"
       :content="content"
       @change="onEditorChange($event)"
       @blur="onEditorBlur($event)"
       @focus="onEditorFocus($event)"
       @ready="onEditorReady($event)"
       v-quill:quill="editorOption"
-      ref="quill">
-    </div>
-    <Upload @upload-success='onFileUpload'
-      ref='upload' />
+      ref="quill"
+    ></div>
+    <Upload @upload-success="onFileUpload" ref="upload"/>
   </section>
 </template>
 
@@ -21,8 +21,16 @@ export default {
   components: {
     Upload
   },
-  props:{
-    value:''
+  props: {
+    value: {
+      type: String,
+      default: ''
+    },
+    editable: {
+      type: Boolean,
+      default: true
+    }
+
   },
   data() {
     return {
@@ -71,8 +79,11 @@ export default {
     }
   },
   watch: {
+    editable(val){
+      this.quill.enable(val)
+    },
     value(val) {
-      this.content=val
+      this.content = val
       if (val != this.content) {
         debugger
         this.content = val
@@ -99,7 +110,7 @@ export default {
     onEditorChange({ editor, html, text }) {
       // console.log('editor change!', editor, html, text)
       this.content = html
-      this.$emit('input',this.content)
+      this.$emit('input', this.content)
     },
     onFileUpload(currentFileClassification, fileUrl) {
       let length = this.quill.getLength();
@@ -112,16 +123,16 @@ export default {
 
 <style lang="less">
 .quill-editor-container {
-    width: 95%;
-    margin: 0 auto;
-    padding: 50px 0;
-    // text-align: left;
+  width: 95%;
+  margin: 0 auto;
+  padding: 50px 0;
+  // text-align: left;
+  height: 100%;
+  .quill-editor {
     height: 100%;
-    .quill-editor {
-        height: 100%;
-        min-height: 500px;
-        max-height: 750px;
-        overflow-y: auto;
-    }
+    min-height: 500px;
+    max-height: 750px;
+    overflow-y: auto;
+  }
 }
 </style>

@@ -49,7 +49,7 @@ export default {
                 type: "video/mp4",
                 src: val
             }
-            this.playerOptions = Object.assign({}, ...this.playerOptions, { sources: [source] })
+            this.playerOptions = Object.assign({},this.playerOptions, { sources: [source] })
         }
     },
     mounted() {
