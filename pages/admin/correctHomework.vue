@@ -28,8 +28,11 @@ export default {
             columns: [
                 {
                     title: '学员昵称',
-                    key: 'aliasName',
-                    align: 'center'
+                    key: 'alias',
+                    align: 'center',
+                    render:(h,params)=>{
+                        return h('span',params.row.member.alias)
+                    }
                 },
                 {
                     title: '课程分类',
@@ -42,10 +45,10 @@ export default {
                 },
                 {
                     title: '提交时间',
-                    key: 'submitTime',
+                    key: 'submittime',
                     align: 'center',
                     render: (h, params) => {
-                        return dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.submitTime))
+                        return h('span',dateUtils.dateToStr("YYYY-MM-DD HH:mm:ss", new Date(params.row.submittime))) 
                     }
                 },
                 {
@@ -68,7 +71,8 @@ export default {
         }
     },
     mounted() {
-        this.mockdata()
+        // this.mockdata()
+        this.getAllPaper()
     },
     methods: {
         mockdata() {
@@ -84,6 +88,16 @@ export default {
                 ]
             })
             this.dataTable = data.arr
+        },
+        getAllPaper() {
+            this.$http.get('get-paper', '').then(r => {
+                console.log(r.data)
+                this.dataTable=r.data
+            }).catch(e => {
+                this.$Notice.error({
+                    desc: e.message
+                })
+            })
         }
     },
 }

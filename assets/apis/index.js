@@ -106,5 +106,10 @@ export default {
   'post-paper': {
     url: '/api/paper/save',
     method: 'post'
+  },
+  //获取作业
+  'get-paper': {
+    url: '/api/paper/getPaper',
+    method: 'get'
   }
 }
