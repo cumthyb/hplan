@@ -20,9 +20,13 @@ var mutations = {
   },
   logout(state, data) {
     // 这里的 `state` 对象是模块的局部状态
+    debugger
     state.user = {}
     // Cookies.remove('name')
     Cookies.remove('jwt')
+    Cookies.remove('koa:sess')
+    Cookies.remove('koa:sess.sig')
+
   },
   changeCurrentView(state, data) {
     // 这里的 `state` 对象是模块的局部状态
