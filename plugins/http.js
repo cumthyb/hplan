@@ -103,6 +103,7 @@ export default {
       if (!APIS[url].url) {
         return
       }
+      debugger
       axios
         .get(APIS[url].url, { params: params })
         .then(check401)
