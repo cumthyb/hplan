@@ -7,7 +7,7 @@
 
 <script>
 import Mock from 'mockjs'
-import QuillEditor from '@components/QuillEditor.vue'
+import QuillEditor from '@components/QuillEditorAnnotate.vue'
 
 export default {
     components: {

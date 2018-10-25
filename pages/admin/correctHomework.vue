@@ -7,24 +7,26 @@
         :columns="columns"
         :data="dataTable"></Table>
     </div>
-
   </div>
 </template>
 
 <script>
 import Mock from 'mockjs'
 import SectionTitle from '@components/SectionTitle.vue'
+import QuillEditor from '@components/QuillEditorAnnotate.vue'
 import dateUtils from 'vue-dateutils';
 
 export default {
   components: {
-    SectionTitle
+    SectionTitle,
+    QuillEditor
   },
   props: {
     id: ''
   },
   data() {
     return {
+      currentPaper: '',
       columns: [
         {
           title: '学员昵称',
@@ -52,9 +54,33 @@ export default {
           }
         },
         {
-          title: '批改人',
-          key: 'corrector',
-          align: 'center'
+          title: '批改状态',
+          key: 'correctState',
+          align: 'center',
+          render: (h, params) => {
+            let color = ''
+            let text = ''
+            if (params.row.correctstate) {
+              color = '#238EFA'
+              text = '已批改'
+            }
+            else {
+              color = '#C01920',
+                text = '未批改'
+            }
+
+            return h(
+              'p',
+              {
+                style: {
+                  color: color,
+                  cursor: 'pointer'
+                }
+              },
+              text
+            )
+          }
+
         },
         {
           title: '学员评价',
@@ -75,11 +101,11 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.handleCorrect(params.row.id)
+                    this.handleCorrect(params.row._id)
                   }
                 }
               },
-              text
+              '查看'
             )
           }
         }
@@ -116,8 +142,18 @@ export default {
         })
       })
     },
-    handleCorrect(paperId){
-      window.open()
+    onEditorBlur(content) {
+      this.correctContent = content;
+      console.log('correctContent', this.correctContent)
+    },
+    handleCorrect(paperId) {
+      this.correctState = true
+      this.currentPaper = paperId
+      debugger
+      window.open('/#/admin/correct?id=' + paperId)
+    },
+    saveCorrect() {
+      console.log('save')
     }
   },
 }

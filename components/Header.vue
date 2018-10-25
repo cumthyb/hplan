@@ -30,7 +30,7 @@
         </MenuItem>
         <MenuItem name="4"
           v-if='loginState'
-          :to="{name:'member-task',params:{ 'username': 222}}">
+          :to="{name:'member-papers',params:{ 'username': 222}}">
         我的作业
         </MenuItem>
       </Menu>

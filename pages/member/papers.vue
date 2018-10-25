@@ -1,11 +1,11 @@
 <!-- 作业总览 -->
 <template>
-    <div class='task-panel'>
+    <div class='papers-panel'>
         <SectionTitle :title="title" />
         <Table border
-            class='tasks-table'
+            class='papers-table'
             :columns="columns1"
-            :data="data1"></Table>
+            :data="tableData"></Table>
     </div>
 </template>
 
@@ -23,17 +23,35 @@ export default {
             columns1: [
                 {
                     title: '作业名称',
-                    key: 'name1',
-                    align: 'center'
+                    key: 'title',
+                    align: 'center',
+                    render: (h, params) => {
+                        if (params.row.task) {
+                            return h('p', params.row.task.title)
+                        }
+                        
+                    }
                 },
                 {
                     title: '作业状态',
-                    key: 'name2',
+                    key: 'score',
                     align: 'center',
                     className: 'score',
                     render: (h, params) => {
-                        let str = params.row.name2
-                        return h('p', { style: { color: str == '合格' ? 'black' : 'red' } }, str)
+                        let score = params.row.score
+                        let str='优秀'
+                        if (score>=90) {
+                            str='优秀'
+                        } else if(score>=80&&score<90) {
+                            str='良好'
+                        }else if(score>=60&&score<80) {
+                            str='合格'
+                        }else if(score>=0&&score<60) {
+                            str='不合格'
+                        }else {
+                            str='未批改'
+                        }
+                        return h('p', str)
                     }
                 },
                 {
@@ -73,30 +91,11 @@ export default {
                 },
                 {
                     title: '提交次数',
-                    key: 'name4',
+                    key: 'submittimes',
                     align: 'center'
                 }
             ],
-            data1: [
-                {
-                    name1: '财经',
-                    name2: '不合格',
-                    name3: '未批该',
-                    name4: '1'
-                },
-                {
-                    name1: '体育',
-                    name2: '合格',
-                    name3: '已批改',
-                    name4: '2'
-                },
-                {
-                    name1: '民生',
-                    name2: '不合格',
-                    name3: '已批改',
-                    name4: '3'
-                }
-            ]
+            tableData: []
         }
     },
 
@@ -108,20 +107,29 @@ export default {
         }
     },
 
-    mounted() { },
+    mounted() {
+        this.getMyPapers()
+    },
 
     methods: {
+        getMyPapers() {
+            this.$http.get('get-my-papers', '').then(r => {
+                this.tableData = r.data
+            }).catch(e => {
+                this.$Message.error(e.message);
+            })
+        },
         jump2TaskDetail(id) {
-            id='4545kjkjl'
+            id = '4545kjkjl'
             this.$router.push({ path: '/member/taskview', query: { 'id': id } });
         }
     }
 }
 </script>
 <style lang='less'>
-.task-panel {
+.papers-panel {
     padding: 20px;
-    .tasks-table {
+    .papers-table {
         margin-top: 10px;
     }
 }

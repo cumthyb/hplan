@@ -7,7 +7,7 @@
             </span>
             <span class="btn"
                 v-if='!showMask'>
-                <nuxt-link :to="{name:'member-task',params:{ 'username': 222}}">我的作业</nuxt-link>
+                <nuxt-link :to="{name:'member-papers',params:{ 'username': 222}}">我的作业</nuxt-link>
             </span>
         </div>
         <div class="split-panel">

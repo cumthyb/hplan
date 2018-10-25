@@ -111,5 +111,15 @@ export default {
   'get-paper': {
     url: '/api/paper/getPaper',
     method: 'get'
+  },
+  //批改作业
+  'correct-paper': {
+    url: 'api/paper/correct',
+    method: 'post'
+  },
+  //我的作业
+  'get-my-papers': {
+    url: 'api/paper/getMyPaper',
+    method: 'get'
   }
 }
