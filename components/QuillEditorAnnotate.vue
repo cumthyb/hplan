@@ -188,7 +188,6 @@ export default {
   },
 
   mounted() {
-
     var selector = `#editor_${this._uid}`
     var commentDom = document.createElement('div');
     commentDom.className = 'quill-comment'
