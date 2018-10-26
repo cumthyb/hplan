@@ -1,17 +1,20 @@
 <template>
   <section class="quill-editor-container">
-    <quill-editor
-      :id="'editor_'+_uid"
+    <div :id="'editor_'+_uid"
       class="quill-editor"
-      v-model="content"
-      ref="quill"
-      :options="editorOption"
+      :content="content"
       @change="onEditorChange($event)"
       @blur="onEditorBlur($event)"
       @focus="onEditorFocus($event)"
       @ready="onEditorReady($event)"
-    ></quill-editor>
-    <Upload @upload-success="onFileUpload" ref="upload"/>
+      v-quill:quill="editorOption"
+      ref="quill">
+    </div>
+    <Upload @upload-success='onFileUpload'
+      ref='upload' />
+    <template>
+
+    </template>
   </section>
 </template>
 
@@ -243,7 +246,7 @@ export default {
       setTimeout(() => {
         _this.quill.insertText(commentData.startIndex, commentData.original);
         setTimeout(() => {
-          _this.quill.formatText(commentData.startIndex, commentData.length * 2, commentData.format);
+          _this.quill.formatText(commentData.startIndex, commentData.length *2, commentData.format);
         }, 0);
       }, 0);
 
@@ -256,114 +259,114 @@ export default {
 
 <style lang="less">
 .quill-editor-container {
-  width: 1066px;
-  box-sizing: border-box;
-  margin: 0 auto;
-  // max-height: 1200px;
-  .ql-toolbar {
-    background-color: #f7f7f7;
-    height: 46px;
-    padding: 0;
-    padding-bottom: 8px;
-    padding-top: 11px;
-    white-space: nowrap;
-    border: none;
+    width: 1066px;
+    box-sizing: border-box;
     margin: 0 auto;
-    text-align: center;
-    font-family: Helvetica, Tahoma, Arial, Hiragino Sans GB, Microsoft YaHei,
-      sans-serif;
-    transition: height 0.2s ease-in;
-    transition: height 0.2s ease-in;
-    .ql-annotate {
-      position: relative;
-      top: -2px;
-      &::after {
-        content: "C";
-        font-size: 16px;
-        font-weight: 700;
-      }
-    }
-  }
-
-  .quill-editor {
-    min-height: 800px;
-    padding-right: 250px;
-    background-color: #fff;
-    border-bottom: 1px solid #d9d9d9;
-    box-shadow: 0 1px 6px #ccc;
-    .comment-embed {
-      .embed-text {
-        text-decoration: underline;
-        color: #fce5ea;
-        background: #e5335d;
-        cursor: pointer;
-      }
-      .comment-item {
-        .comment-container {
-          display: inline-block;
-          width: 230px;
-          position: absolute;
-          left: 826px;
-          text-align: left;
-          color: #e5335d;
-          font-size: 12px;
-          z-index: 100;
-          max-height: 300px;
-          overflow: auto;
-          background: #fff;
-          box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
-          border-radius: 2px;
-          position: absolute;
-          transition: opacity 0.3s ease-out, margin-left 0.3s ease,
-            top 0.3s ease;
-          padding: 5px 10px;
-          opacity: 0.5;
-          &:hover {
-            opacity: 1;
-            z-index: 101;
-          }
-          .header {
-            border-bottom: 1px dashed #f00;
-            .title {
-              font-size: 12px;
-              display: inline-block;
-              max-width: 180px;
-              overflow: hidden;
-              text-overflow: ellipsis;
-              white-space: nowrap;
+    // max-height: 1200px;
+    .ql-toolbar {
+        background-color: #f7f7f7;
+        height: 46px;
+        padding: 0;
+        padding-bottom: 8px;
+        padding-top: 11px;
+        white-space: nowrap;
+        border: none;
+        margin: 0 auto;
+        text-align: center;
+        font-family: Helvetica, Tahoma, Arial, Hiragino Sans GB, Microsoft YaHei,
+            sans-serif;
+        transition: height 0.2s ease-in;
+        transition: height 0.2s ease-in;
+        .ql-annotate {
+            position: relative;
+            top: -2px;
+            &::after {
+                content: 'C';
+                font-size: 16px;
+                font-weight: 700;
             }
-            .btn {
-              cursor: pointer;
-              user-select: none;
-              font-size: 26px;
-              position: absolute;
-              right: 10px;
-              top: -5px;
-            }
-          }
-          .content {
-            padding-top: 5px;
-            padding-bottom: 2px;
-            color: #333;
-            line-height: 18px;
-            word-break: break-word;
-          }
         }
-        .active-comment {
-          opacity: 1;
-          z-index: 101;
-        }
-      }
     }
-  }
-  .quill-comment {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 250px;
-    height: 100%;
 
-    border-left: 1px solid #ccc;
-  }
+    .quill-editor {
+        min-height: 800px;
+        padding-right: 250px;
+        background-color: #fff;
+        border-bottom: 1px solid #d9d9d9;
+        box-shadow: 0 1px 6px #ccc;
+        .comment-embed {
+            .embed-text {
+                text-decoration: underline;
+                color: #fce5ea;
+                background: #e5335d;
+                cursor: pointer;
+            }
+            .comment-item {
+                .comment-container {
+                    display: inline-block;
+                    width: 230px;
+                    position: absolute;
+                    left: 826px;
+                    text-align: left;
+                    color: #e5335d;
+                    font-size: 12px;
+                    z-index: 100;
+                    max-height: 300px;
+                    overflow: auto;
+                    background: #fff;
+                    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+                    border-radius: 2px;
+                    position: absolute;
+                    transition: opacity 0.3s ease-out, margin-left 0.3s ease,
+                        top 0.3s ease;
+                    padding: 5px 10px;
+                    opacity: 0.5;
+                    &:hover {
+                        opacity: 1;
+                        z-index: 101;
+                    }
+                    .header {
+                        border-bottom: 1px dashed #f00;
+                        .title {
+                            font-size: 12px;
+                            display: inline-block;
+                            max-width: 180px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+                        .btn {
+                            cursor: pointer;
+                            user-select: none;
+                            font-size: 26px;
+                            position: absolute;
+                            right: 10px;
+                            top: -5px;
+                        }
+                    }
+                    .content {
+                        padding-top: 5px;
+                        padding-bottom: 2px;
+                        color: #333;
+                        line-height: 18px;
+                        word-break: break-word;
+                    }
+                }
+                .active-comment {
+                    opacity: 1;
+                    z-index: 101;
+                }
+            }
+        }
+    }
+    .quill-comment {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 250px;
+        height: 100%;
+
+        border-left: 1px solid #ccc;
+    }
 }
 </style>

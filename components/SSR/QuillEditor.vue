@@ -1,16 +1,15 @@
 <template>
   <section class="quill-editor-container">
-    <quill-editor
-      :id="'editor_'+_uid"
+    <div
       class="quill-editor"
-      v-model="content"
-      ref="quill"
-      :options="editorOption"
+      :content="content"
       @change="onEditorChange($event)"
       @blur="onEditorBlur($event)"
       @focus="onEditorFocus($event)"
       @ready="onEditorReady($event)"
-    ></quill-editor>
+      v-quill:quill="editorOption"
+      ref="quill"
+    ></div>
     <Upload @upload-success="onFileUpload" ref="upload"/>
   </section>
 </template>
@@ -80,7 +79,7 @@ export default {
     }
   },
   watch: {
-    editable(val) {
+    editable(val){
       this.quill.enable(val)
     },
     value(val) {
